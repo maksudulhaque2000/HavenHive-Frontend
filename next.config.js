@@ -1,4 +1,10 @@
 /** @type {import('next').NextConfig} */
+const backendUrl = (
+  process.env.BACKEND_URL ||
+  process.env.NEXT_PUBLIC_API_URL ||
+  "http://localhost:5000"
+).replace(/\/+$/, "");
+
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
@@ -6,9 +12,13 @@ const nextConfig = {
     unoptimized: true,
     domains: ["res.cloudinary.com", "localhost"],
   },
-  env: {
-    NEXT_PUBLIC_API_URL:
-      process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000",
+  async rewrites() {
+    return [
+      {
+        source: "/api/:path*",
+        destination: `${backendUrl}/api/:path*`,
+      },
+    ];
   },
 };
 

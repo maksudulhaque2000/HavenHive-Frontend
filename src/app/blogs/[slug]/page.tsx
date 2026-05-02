@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import Image from "next/image";
 import { blogService } from "@/lib/services/blog";
 import { Blog } from "@/types";
 import Card from "@/components/ui/Card";
@@ -62,11 +63,9 @@ export default function BlogDetailPage() {
           </div>
 
           {blog.coverImage && (
-            <img
-              src={blog.coverImage}
-              alt={blog.title}
-              className="w-full h-96 object-cover rounded-lg mb-8"
-            />
+            <div className="relative mb-8 h-96 w-full overflow-hidden rounded-lg">
+              <Image src={blog.coverImage} alt={blog.title} fill sizes="(max-width: 768px) 100vw, 768px" className="object-cover" />
+            </div>
           )}
 
           <div className="prose prose-lg max-w-none whitespace-pre-wrap">

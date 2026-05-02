@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { CalendarDays, ArrowRight } from "lucide-react";
 import { Blog } from "@/types";
 import Card from "@/components/ui/Card";
@@ -19,10 +20,9 @@ export default function BlogCard({ blog, featured = false }: BlogCardProps) {
   return (
     <Card className={featured ? "overflow-hidden p-0 md:col-span-2 lg:col-span-3" : "overflow-hidden p-0"}>
       <Link href={href} className="grid h-full grid-cols-1 md:grid-cols-[1.15fr_0.85fr]">
-        <div className="relative min-h-64 bg-gradient-to-br from-primary/15 to-secondary/20">
+        <div className="relative min-h-64 overflow-hidden bg-gradient-to-br from-primary/15 to-secondary/20">
           {blog.coverImage ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={blog.coverImage} alt={blog.title} className="h-full w-full object-cover" loading="lazy" />
+            <Image src={blog.coverImage} alt={blog.title} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" />
           ) : (
             <div className="flex h-full min-h-64 items-center justify-center text-primary">No cover image</div>
           )}

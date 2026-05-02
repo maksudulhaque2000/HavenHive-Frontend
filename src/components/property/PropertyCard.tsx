@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { Heart, MapPin, BedDouble, Bath, Ruler, BadgeDollarSign } from "lucide-react";
 import { Property } from "@/types";
 import Card from "@/components/ui/Card";
@@ -23,10 +24,15 @@ export default function PropertyCard({ property, href, onWishlistToggle, wishlis
   return (
     <Card className="group overflow-hidden p-0">
       <Link href={linkHref} className="block">
-        <div className="relative">
+        <div className="relative h-56 overflow-hidden">
           {image ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={image} alt={property.title} className="h-56 w-full object-cover transition duration-500 group-hover:scale-105" loading="lazy" />
+            <Image
+              src={image}
+              alt={property.title}
+              fill
+              sizes="(max-width: 768px) 100vw, 33vw"
+              className="object-cover transition duration-500 group-hover:scale-105"
+            />
           ) : (
             <div className="flex h-56 items-center justify-center bg-gradient-to-br from-primary/15 to-secondary/25 text-primary">No image</div>
           )}

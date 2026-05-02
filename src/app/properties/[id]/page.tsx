@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import Image from "next/image";
 import { propertyService } from "@/lib/services/property";
 import { reviewService } from "@/lib/services/review";
 import { bookingService } from "@/lib/services/booking";
@@ -112,20 +113,21 @@ export default function PropertyDetailPage() {
           {/* Images */}
           {property.images.length > 0 && (
             <div className="mb-8">
-              <img
-                src={property.images[0].url}
-                alt={property.title}
-                className="w-full h-96 object-cover rounded-lg mb-4"
-              />
+              <div className="relative mb-4 h-96 w-full overflow-hidden rounded-lg">
+                <Image src={property.images[0].url} alt={property.title} fill sizes="(max-width: 768px) 100vw, 768px" className="object-cover" />
+              </div>
               {property.images.length > 1 && (
                 <div className="grid grid-cols-4 gap-4">
                   {property.images.slice(1, 5).map((img, idx) => (
-                    <img
-                      key={idx}
-                      src={img.url}
-                      alt={`${property.title} ${idx + 2}`}
-                      className="w-full h-20 object-cover rounded-lg"
-                    />
+                    <div key={idx} className="relative h-20 w-full overflow-hidden rounded-lg">
+                      <Image
+                        src={img.url}
+                        alt={`${property.title} ${idx + 2}`}
+                        fill
+                        sizes="25vw"
+                        className="object-cover"
+                      />
+                    </div>
                   ))}
                 </div>
               )}

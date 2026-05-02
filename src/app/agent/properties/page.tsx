@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { useAuthStore } from "@/store/auth";
 import { propertyService } from "@/lib/services/property";
 import { Property } from "@/types";
@@ -78,11 +79,15 @@ export default function AgentPropertiesPage() {
             <Card key={property._id}>
               <div className="flex gap-4">
                 {property.images[0] && (
-                  <img
-                    src={property.images[0].url}
-                    alt={property.title}
-                    className="w-32 h-32 object-cover rounded-lg"
-                  />
+                  <div className="relative h-32 w-32 overflow-hidden rounded-lg">
+                    <Image
+                      src={property.images[0].url}
+                      alt={property.title}
+                      fill
+                      sizes="128px"
+                      className="object-cover"
+                    />
+                  </div>
                 )}
                 <div className="flex-1">
                   <h3 className="text-xl font-bold mb-2">{property.title}</h3>
