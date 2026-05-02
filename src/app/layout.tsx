@@ -6,6 +6,7 @@ import Navbar from "@/components/ui/Navbar";
 import ToastHost from "@/components/ui/ToastHost";
 import { useDarkMode } from "@/hooks/useDarkMode";
 import "@/styles/globals.css";
+import "leaflet/dist/leaflet.css";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const { hydrate } = useAuthStore();

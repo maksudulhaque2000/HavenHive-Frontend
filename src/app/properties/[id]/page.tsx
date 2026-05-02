@@ -16,6 +16,7 @@ import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import Alert from "@/components/ui/Alert";
 import { formatCurrency, formatDate } from "@/lib/utils";
 import Link from "next/link";
+import PropertyMap from "@/components/property/PropertyMap";
 
 export default function PropertyDetailPage() {
   const params = useParams();
@@ -100,6 +101,8 @@ export default function PropertyDetailPage() {
     }
   };
 
+  const minDate = new Date().toISOString().split("T")[0];
+
   if (isLoading) return <LoadingSpinner fullPage />;
   if (!property) return <div className="container py-12 text-center">Property not found</div>;
 
@@ -164,6 +167,15 @@ export default function PropertyDetailPage() {
               {property.location.address}, {property.location.city}, {property.location.state}{" "}
               {property.location.country}
             </p>
+            {property.location?.coordinates?.lat && property.location?.coordinates?.lng && (
+              <div className="mt-4">
+                <PropertyMap
+                  lat={property.location.coordinates.lat}
+                  lng={property.location.coordinates.lng}
+                  title={property.title}
+                />
+              </div>
+            )}
           </Card>
 
           {/* Reviews */}
@@ -230,6 +242,7 @@ export default function PropertyDetailPage() {
               <form onSubmit={handleBooking} className="space-y-3">
                 <Input
                   type="date"
+                  min={minDate}
                   value={bookingDate}
                   onChange={(e) => setBookingDate(e.target.value)}
                   required

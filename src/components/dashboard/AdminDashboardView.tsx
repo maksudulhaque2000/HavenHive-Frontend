@@ -8,6 +8,21 @@ import { contactService } from "@/lib/services/contact";
 import { propertyService } from "@/lib/services/property";
 import { userService } from "@/lib/services/user";
 import { Booking, Contact as ContactMessage, Property, StatsResponse, User } from "@/types";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  LineChart,
+  Line,
+  PieChart,
+  Pie,
+  Cell,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
 import { useAuth } from "@/hooks/useAuth";
 import DashboardShell, { DashboardMenuItem } from "@/components/layout/DashboardShell";
 import Card from "@/components/ui/Card";
@@ -31,6 +46,9 @@ export default function AdminDashboardView() {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [contacts, setContacts] = useState<ContactMessage[]>([]);
   const [propertyStats, setPropertyStats] = useState({ total: 0, published: 0, draft: 0, featured: 0 });
+  const [monthlyPropertiesData, setMonthlyPropertiesData] = useState<any[]>([]);
+  const [monthlyUsersData, setMonthlyUsersData] = useState<any[]>([]);
+  const [typeDistributionData, setTypeDistributionData] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -55,6 +73,51 @@ export default function AdminDashboardView() {
           draft: statsData.draft ?? 0,
           featured: statsData.featured ?? 0,
         });
+
+        // Prepare chart data from fetched lists (derived from existing records)
+        try {
+          // last 12 months labels
+          const months = Array.from({ length: 12 }).map((_, i) => {
+            const d = new Date();
+            d.setMonth(d.getMonth() - (11 - i));
+            return d;
+          });
+
+          const monthLabels = months.map((d) => d.toLocaleString(undefined, { month: "short", year: "numeric" }));
+
+          const propMonthly = monthLabels.map((label, idx) => {
+            const start = new Date(months[idx].getFullYear(), months[idx].getMonth(), 1);
+            const end = new Date(start.getFullYear(), start.getMonth() + 1, 1);
+            const count = (propertiesResponse.data || []).filter((p: Property) => {
+              const created = p.createdAt ? new Date(p.createdAt) : new Date(0);
+              return created >= start && created < end;
+            }).length;
+            return { month: label, count };
+          });
+
+          const userMonthly = monthLabels.map((label, idx) => {
+            const start = new Date(months[idx].getFullYear(), months[idx].getMonth(), 1);
+            const end = new Date(start.getFullYear(), start.getMonth() + 1, 1);
+            const count = (usersResponse.data || []).filter((u: User) => {
+              const created = u.createdAt ? new Date(u.createdAt) : new Date(0);
+              return created >= start && created < end;
+            }).length;
+            return { month: label, count };
+          });
+
+          const typeMap: Record<string, number> = {};
+          (propertiesResponse.data || []).forEach((p: Property) => {
+            const t = p.type || "other";
+            typeMap[t] = (typeMap[t] || 0) + 1;
+          });
+          const typeData = Object.keys(typeMap).map((k) => ({ name: k, value: typeMap[k] }));
+
+          setMonthlyPropertiesData(propMonthly);
+          setMonthlyUsersData(userMonthly);
+          setTypeDistributionData(typeData);
+        } catch (err) {
+          // silently ignore chart derivation errors
+        }
       } finally {
         setIsLoading(false);
       }
@@ -86,6 +149,56 @@ export default function AdminDashboardView() {
           <Card className="p-6">
             <p className="text-sm text-slate-500 dark:text-slate-400">Messages</p>
             <p className="mt-3 text-4xl font-black text-slate-900 dark:text-slate-100">{contacts.length}</p>
+          </Card>
+        </section>
+        <section className="grid gap-6 xl:grid-cols-3">
+          <Card className="p-4">
+            <span className="section-label">Monthly Listings</span>
+            <h3 className="mt-2 text-xl font-black text-slate-900 dark:text-slate-100">New properties (last 12 months)</h3>
+            <div className="h-48 mt-4">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={monthlyPropertiesData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="month" />
+                  <YAxis />
+                  <Tooltip />
+                  <Bar dataKey="count" fill="#1B2B5E" />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </Card>
+
+          <Card className="p-4">
+            <span className="section-label">User Registrations</span>
+            <h3 className="mt-2 text-xl font-black text-slate-900 dark:text-slate-100">Monthly new users</h3>
+            <div className="h-48 mt-4">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={monthlyUsersData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="month" />
+                  <YAxis />
+                  <Tooltip />
+                  <Line type="monotone" dataKey="count" stroke="#F5A623" strokeWidth={2} />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+          </Card>
+
+          <Card className="p-4">
+            <span className="section-label">Property Types</span>
+            <h3 className="mt-2 text-xl font-black text-slate-900 dark:text-slate-100">Type distribution</h3>
+            <div className="h-48 mt-4">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie data={typeDistributionData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={60} label>
+                    {typeDistributionData.map((_, index) => (
+                      <Cell key={`cell-${index}`} fill={["#1B2B5E", "#F5A623", "#065F46", "#991B1B", "#6B7280"][index % 5]} />
+                    ))}
+                  </Pie>
+                  <Legend />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
           </Card>
         </section>
 

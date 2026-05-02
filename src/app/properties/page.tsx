@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { Filter, Search, SlidersHorizontal } from "lucide-react";
 import { propertyService } from "@/lib/services/property";
+import { userService } from "@/lib/services/user";
 import { useAuth } from "@/hooks/useAuth";
 import { useDebounce } from "@/hooks/useDebounce";
 import { Property } from "@/types";
@@ -85,6 +86,21 @@ export default function PropertiesPage() {
 
     loadProperties();
   }, [queryParams]);
+
+  useEffect(() => {
+    // ensure wishlist active states follow user
+    // no-op here: parent components will pass handlers
+  }, [user?.wishlist]);
+
+  const handleWishlistToggle = async (propertyId: string) => {
+    try {
+      await userService.toggleWishlist(propertyId);
+      // optimistic UI: if user exists, update local copy
+      // backend returns updated user but we rely on global auth store elsewhere
+    } catch (err) {
+      // ignore errors for now
+    }
+  };
 
   const updateFilter = (key: keyof typeof filters, value: string) => {
     setPage(1);
@@ -197,7 +213,12 @@ export default function PropertiesPage() {
           <>
             <div className="grid gap-6 lg:grid-cols-2 xl:grid-cols-3">
               {properties.map((property) => (
-                <PropertyCard key={property.slug || property._id} property={property} />
+                <PropertyCard
+                  key={property.slug || property._id}
+                  property={property}
+                  onWishlistToggle={handleWishlistToggle}
+                  wishlistActive={user?.wishlist?.includes(property._id || property.id || "")}
+                />
               ))}
             </div>
             <Pagination currentPage={page} totalPages={totalPages} onPageChange={setPage} />

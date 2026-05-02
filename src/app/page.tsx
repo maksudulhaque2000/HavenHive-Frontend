@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowRight, BadgeCheck, Building2, Compass, Home, KeyRound, Mail, MapPinned, PlayCircle, Search, Sparkles } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { propertyService } from "@/lib/services/property";
 import { blogService } from "@/lib/services/blog";
 import { Blog, Property, StatsResponse } from "@/types";
@@ -120,6 +121,10 @@ export default function HomePage() {
                   Contact an Agent
                 </Button>
               </Link>
+            </div>
+            {/* Search Widget */}
+            <div className="mt-6">
+              <SearchWidget />
             </div>
             <div className="grid gap-4 sm:grid-cols-3">
               {[
@@ -329,5 +334,82 @@ export default function HomePage() {
         </Card>
       </section>
     </div>
+  );
+}
+
+function SearchWidget() {
+  const router = useRouter();
+  const [city, setCity] = useState("");
+  const [purpose, setPurpose] = useState("");
+  const [type, setType] = useState("");
+  const [minBudget, setMinBudget] = useState(0);
+  const [maxBudget, setMaxBudget] = useState(50000000);
+
+  const submit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const params = new URLSearchParams();
+    if (city) params.set("city", city);
+    if (purpose) params.set("purpose", purpose);
+    if (type) params.set("type", type);
+    if (minBudget > 0) params.set("minPrice", String(minBudget));
+    if (maxBudget > 0) params.set("maxPrice", String(maxBudget));
+    router.push(`/properties?${params.toString()}`);
+  };
+
+  return (
+    <form onSubmit={submit} className="rounded-3xl bg-white p-4 shadow-md dark:bg-slate-900">
+      <div className="grid gap-3 sm:grid-cols-5">
+        <input value={city} onChange={(e) => setCity(e.target.value)} placeholder="City (e.g., Dhaka)" className="col-span-2 h-12 rounded-xl border px-3" />
+        <select value={purpose} onChange={(e) => setPurpose(e.target.value)} className="h-12 rounded-xl border px-3">
+          <option value="">Purpose</option>
+          <option value="sale">Buy</option>
+          <option value="rent">Rent</option>
+        </select>
+        <select value={type} onChange={(e) => setType(e.target.value)} className="h-12 rounded-xl border px-3">
+          <option value="">Property Type</option>
+          <option value="apartment">Apartment</option>
+          <option value="house">House</option>
+          <option value="villa">Villa</option>
+          <option value="studio">Studio</option>
+          <option value="office">Office</option>
+          <option value="land">Land</option>
+        </select>
+        <div className="col-span-5 grid gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-950 sm:grid-cols-2">
+          <label className="space-y-2 text-sm font-medium text-slate-700 dark:text-slate-300">
+            <div className="flex items-center justify-between">
+              <span>Minimum budget</span>
+              <span className="text-xs text-slate-500">{minBudget.toLocaleString()}</span>
+            </div>
+            <input
+              type="range"
+              min={0}
+              max={50000000}
+              step={50000}
+              value={minBudget}
+              onChange={(e) => setMinBudget(Number(e.target.value))}
+              className="w-full accent-primary"
+            />
+          </label>
+          <label className="space-y-2 text-sm font-medium text-slate-700 dark:text-slate-300">
+            <div className="flex items-center justify-between">
+              <span>Maximum budget</span>
+              <span className="text-xs text-slate-500">{maxBudget.toLocaleString()}</span>
+            </div>
+            <input
+              type="range"
+              min={500000}
+              max={50000000}
+              step={50000}
+              value={maxBudget}
+              onChange={(e) => setMaxBudget(Number(e.target.value))}
+              className="w-full accent-secondary"
+            />
+          </label>
+        </div>
+      </div>
+      <div className="mt-3 flex justify-end">
+        <button type="submit" className="rounded-xl bg-primary px-5 py-2 text-white">Search</button>
+      </div>
+    </form>
   );
 }
