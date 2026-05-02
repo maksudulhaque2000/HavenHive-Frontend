@@ -1,0 +1,333 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { ArrowRight, BadgeCheck, Building2, Compass, Home, KeyRound, Mail, MapPinned, PlayCircle, Search, Sparkles } from "lucide-react";
+import { propertyService } from "@/lib/services/property";
+import { blogService } from "@/lib/services/blog";
+import { Blog, Property, StatsResponse } from "@/types";
+import Card from "@/components/ui/Card";
+import Button from "@/components/ui/Button";
+import Badge from "@/components/ui/Badge";
+import LoadingSpinner from "@/components/ui/LoadingSpinner";
+import PropertyCard from "@/components/property/PropertyCard";
+import BlogCard from "@/components/blog/BlogCard";
+import { formatNumber } from "@/lib/utils";
+
+const categories = [
+  { label: "Apartments", href: "/properties?type=apartment", icon: Building2 },
+  { label: "Villas", href: "/properties?type=villa", icon: Home },
+  { label: "Rentals", href: "/properties?purpose=rent", icon: Compass },
+  { label: "Commercial", href: "/properties?type=commercial", icon: MapPinned },
+];
+
+const howItWorks = [
+  {
+    title: "Search with intent",
+    description: "Filter by city, budget, type, and purpose to find homes that fit your lifestyle.",
+    icon: Search,
+  },
+  {
+    title: "Book a visit",
+    description: "Choose a date and visit type to schedule a showing with the assigned agent.",
+    icon: KeyRound,
+  },
+  {
+    title: "Move with confidence",
+    description: "Track your bookings, favorites, and reviews from your personal dashboard.",
+    icon: BadgeCheck,
+  },
+];
+
+const agents = [
+  { name: "Ariana Rahman", role: "Senior Property Advisor", experience: "8 years", area: "Dhaka & Chattogram" },
+  { name: "Noman Chowdhury", role: "Investment Specialist", experience: "6 years", area: "Residential Portfolios" },
+  { name: "Maya Islam", role: "Luxury Homes Consultant", experience: "7 years", area: "Premium Villas" },
+];
+
+const testimonials = [
+  {
+    quote: "HavenHive helped us shortlist the right home faster than any other platform we tried.",
+    author: "Farzana & Imran",
+  },
+  {
+    quote: "The booking flow and property details made it easy to compare options without friction.",
+    author: "Mehedi Hasan",
+  },
+  {
+    quote: "Their listings feel curated and the dashboard makes follow-up simple.",
+    author: "Rita Das",
+  },
+];
+
+export default function HomePage() {
+  const [featured, setFeatured] = useState<Property[]>([]);
+  const [latestBlogs, setLatestBlogs] = useState<Blog[]>([]);
+  const [stats, setStats] = useState({ total: 0, published: 0, draft: 0, featured: 0 });
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const loadHomeData = async () => {
+      try {
+        const [featuredResponse, blogResponse, statsResponse] = await Promise.all([
+          propertyService.getFeatured(),
+          blogService.getAll(),
+          propertyService.getStats(),
+        ]);
+
+        setFeatured(featuredResponse.data || []);
+        setLatestBlogs((blogResponse.data || []).slice(0, 3));
+        const statsData: Partial<StatsResponse> = statsResponse.data || {};
+        setStats({
+          total: statsData.total ?? 0,
+          published: statsData.published ?? 0,
+          draft: statsData.draft ?? 0,
+          featured: statsData.featured ?? 0,
+        });
+      } catch {
+        setFeatured([]);
+        setLatestBlogs([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadHomeData();
+  }, []);
+
+  return (
+    <div className="space-y-24 pb-16">
+      <section className="container pt-10 lg:pt-16">
+        <div className="grid gap-8 lg:grid-cols-[1.08fr_0.92fr] lg:items-center">
+          <div className="space-y-8">
+            <Badge variant="warning" className="w-fit">Trusted real estate marketplace</Badge>
+            <div className="space-y-5">
+              <h1 className="max-w-3xl text-5xl font-black tracking-tight text-slate-900 text-balance dark:text-slate-100 md:text-6xl">
+                Find the home, investment, or rental that feels right.
+              </h1>
+              <p className="max-w-2xl text-lg leading-8 text-slate-600 dark:text-slate-400">
+                HavenHive brings curated property listings, agent-backed support, and transparent booking flows together in one premium marketplace.
+              </p>
+            </div>
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <Link href="/properties">
+                <Button size="lg" rightIcon={<ArrowRight className="h-5 w-5" />}>
+                  Explore Properties
+                </Button>
+              </Link>
+              <Link href="/contact">
+                <Button size="lg" variant="outline" leftIcon={<Mail className="h-5 w-5" />}>
+                  Contact an Agent
+                </Button>
+              </Link>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-3">
+              {[
+                { label: "Live listings", value: stats.total || 1200 },
+                { label: "Happy clients", value: 2800 },
+                { label: "Verified agents", value: 45 },
+              ].map((item) => (
+                <Card key={item.label} variant="bordered" className="p-5">
+                  <p className="text-sm text-slate-500 dark:text-slate-400">{item.label}</p>
+                  <p className="mt-2 text-3xl font-black tracking-tight text-slate-900 dark:text-slate-100">{formatNumber(item.value)}</p>
+                </Card>
+              ))}
+            </div>
+          </div>
+
+          <Card className="relative overflow-hidden p-0">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(199,162,75,0.18),_transparent_42%),linear-gradient(135deg,_rgba(20,50,79,0.96),_rgba(20,50,79,0.82))]" />
+            <div className="relative p-6 text-white">
+              <div className="mb-8 flex items-center justify-between">
+                <div>
+                  <p className="text-sm uppercase tracking-[0.3em] text-white/70">Featured insight</p>
+                  <h2 className="mt-2 text-2xl font-black">Smart search, real results</h2>
+                </div>
+                <PlayCircle className="h-10 w-10 text-secondary" />
+              </div>
+
+              <div className="space-y-4 rounded-3xl bg-white/10 p-5 backdrop-blur">
+                <div className="flex items-center gap-3">
+                  <Sparkles className="h-5 w-5 text-secondary" />
+                  <p className="text-sm font-semibold">Personalized recommendations</p>
+                </div>
+                <p className="text-sm leading-7 text-white/80">
+                  Browse hand-picked apartments, villas, commercial spaces, and rental homes with filters that make it simple to narrow down the right fit.
+                </p>
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="rounded-2xl bg-white/10 p-4">
+                    <p className="text-xs uppercase tracking-[0.2em] text-white/60">Featured</p>
+                    <p className="mt-2 text-2xl font-black text-secondary">{formatNumber(stats.featured || featured.length || 0)}</p>
+                  </div>
+                  <div className="rounded-2xl bg-white/10 p-4">
+                    <p className="text-xs uppercase tracking-[0.2em] text-white/60">Published</p>
+                    <p className="mt-2 text-2xl font-black text-secondary">{formatNumber(stats.published || 0)}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Card>
+        </div>
+      </section>
+
+      <section className="container space-y-6">
+        <div className="flex items-end justify-between gap-4">
+          <div>
+            <span className="section-label">Browse by category</span>
+            <h2 className="mt-3 text-3xl font-black tracking-tight text-slate-900 dark:text-slate-100">Popular property categories</h2>
+          </div>
+          <Link href="/properties" className="hidden text-sm font-semibold text-primary md:inline-flex">
+            View all properties
+          </Link>
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          {categories.map((category) => {
+            const Icon = category.icon;
+            return (
+              <Link key={category.label} href={category.href}>
+                <Card className="group h-full p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-lift">
+                  <Icon className="h-8 w-8 text-secondary transition group-hover:scale-110" />
+                  <h3 className="mt-4 text-xl font-bold text-slate-900 dark:text-slate-100">{category.label}</h3>
+                  <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">Tailored collections to help you move quickly.</p>
+                </Card>
+              </Link>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className="container space-y-6">
+        <div>
+          <span className="section-label">Statistics</span>
+          <h2 className="mt-3 text-3xl font-black tracking-tight text-slate-900 dark:text-slate-100">Dynamic platform metrics</h2>
+        </div>
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          {[
+            { label: "Total properties", value: stats.total || 0 },
+            { label: "Published listings", value: stats.published || 0 },
+            { label: "Draft listings", value: stats.draft || 0 },
+            { label: "Featured homes", value: stats.featured || 0 },
+          ].map((item) => (
+            <Card key={item.label} className="p-6">
+              <p className="text-sm text-slate-500 dark:text-slate-400">{item.label}</p>
+              <p className="mt-3 text-4xl font-black tracking-tight text-slate-900 dark:text-slate-100">{formatNumber(item.value)}</p>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      <section className="container space-y-6">
+        <div>
+          <span className="section-label">Featured listings</span>
+          <h2 className="mt-3 text-3xl font-black tracking-tight text-slate-900 dark:text-slate-100">Curated properties worth a closer look</h2>
+        </div>
+        {isLoading ? (
+          <LoadingSpinner />
+        ) : featured.length > 0 ? (
+          <div className="grid gap-6 lg:grid-cols-2 xl:grid-cols-3">
+            {featured.slice(0, 6).map((property) => (
+              <PropertyCard key={property.slug || property._id} property={property} />
+            ))}
+          </div>
+        ) : (
+          <Card className="text-center text-slate-500 dark:text-slate-400">No featured properties available right now.</Card>
+        )}
+      </section>
+
+      <section className="container space-y-6">
+        <div>
+          <span className="section-label">How it works</span>
+          <h2 className="mt-3 text-3xl font-black tracking-tight text-slate-900 dark:text-slate-100">A simple path from search to move-in</h2>
+        </div>
+        <div className="grid gap-4 lg:grid-cols-3">
+          {howItWorks.map((step, index) => {
+            const Icon = step.icon;
+            return (
+              <Card key={step.title} className="space-y-4 p-6">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary text-white shadow-soft">
+                  <Icon className="h-5 w-5" />
+                </div>
+                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-secondary">Step {index + 1}</p>
+                <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-100">{step.title}</h3>
+                <p className="text-sm leading-6 text-slate-600 dark:text-slate-400">{step.description}</p>
+              </Card>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className="container space-y-6">
+        <div>
+          <span className="section-label">Agents</span>
+          <h2 className="mt-3 text-3xl font-black tracking-tight text-slate-900 dark:text-slate-100">Meet the people behind the listings</h2>
+        </div>
+        <div className="grid gap-4 lg:grid-cols-3">
+          {agents.map((agent) => (
+            <Card key={agent.name} className="space-y-4 p-6">
+              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-secondary/20 text-lg font-black text-primary">
+                {agent.name.slice(0, 1)}
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100">{agent.name}</h3>
+                <p className="text-sm text-slate-500 dark:text-slate-400">{agent.role}</p>
+              </div>
+              <div className="space-y-2 text-sm text-slate-600 dark:text-slate-400">
+                <p>{agent.experience}</p>
+                <p>{agent.area}</p>
+              </div>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      <section className="container space-y-6">
+        <div>
+          <span className="section-label">Testimonials</span>
+          <h2 className="mt-3 text-3xl font-black tracking-tight text-slate-900 dark:text-slate-100">What clients say</h2>
+        </div>
+        <div className="grid gap-4 lg:grid-cols-3">
+          {testimonials.map((testimonial) => (
+            <Card key={testimonial.author} className="space-y-4 p-6">
+              <p className="text-lg leading-8 text-slate-700 dark:text-slate-300">“{testimonial.quote}”</p>
+              <p className="text-sm font-semibold text-secondary">{testimonial.author}</p>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      <section className="container space-y-6">
+        <div>
+          <span className="section-label">From the blog</span>
+          <h2 className="mt-3 text-3xl font-black tracking-tight text-slate-900 dark:text-slate-100">Latest market insight</h2>
+        </div>
+        {latestBlogs.length > 0 ? (
+          <div className="grid gap-6 lg:grid-cols-3">
+            {latestBlogs.map((blog, index) => (
+              <BlogCard key={blog.slug || blog._id} blog={blog} featured={index === 0} />
+            ))}
+          </div>
+        ) : (
+          <Card className="text-center text-slate-500 dark:text-slate-400">No blog posts available yet.</Card>
+        )}
+      </section>
+
+      <section className="container">
+        <Card className="overflow-hidden p-0">
+          <div className="grid gap-0 lg:grid-cols-[1.1fr_0.9fr]">
+            <div className="space-y-4 bg-primary px-8 py-10 text-white lg:px-10">
+              <span className="section-label border-white/20 bg-white/10 text-white">Newsletter</span>
+              <h2 className="text-3xl font-black tracking-tight">Get updates on new listings and market trends.</h2>
+              <p className="max-w-xl text-sm leading-7 text-white/80">Stay ahead with featured properties, investment tips, and neighborhood updates delivered to your inbox.</p>
+            </div>
+            <div className="bg-white px-8 py-10 dark:bg-slate-900 lg:px-10">
+              <form className="space-y-4">
+                <input type="email" placeholder="Enter your email" className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100" />
+                <Button fullWidth>Subscribe Now</Button>
+              </form>
+            </div>
+          </div>
+        </Card>
+      </section>
+    </div>
+  );
+}

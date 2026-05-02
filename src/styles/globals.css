@@ -1,0 +1,75 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  .dark {
+    color-scheme: dark;
+  }
+
+  * {
+    @apply box-border;
+  }
+
+  html {
+    @apply scroll-smooth bg-light text-slate-900 dark:bg-slate-950 dark:text-slate-100;
+  }
+
+  body {
+    @apply min-h-screen bg-light text-slate-900 antialiased dark:bg-slate-950 dark:text-slate-100;
+    font-family:
+      Inter,
+      "Segoe UI",
+      system-ui,
+      -apple-system,
+      BlinkMacSystemFont,
+      sans-serif;
+  }
+
+  a {
+    @apply text-primary transition-colors hover:text-secondary;
+  }
+
+  button,
+  input,
+  textarea,
+  select {
+    @apply transition duration-200;
+  }
+
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible,
+  a:focus-visible {
+    @apply outline-none ring-2 ring-secondary ring-offset-2 ring-offset-light dark:ring-offset-slate-950;
+  }
+}
+
+@layer components {
+  .container {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .glass-panel {
+    @apply border border-white/40 bg-white/85 shadow-soft backdrop-blur dark:border-slate-700 dark:bg-slate-900/85;
+  }
+
+  .section-label {
+    @apply inline-flex items-center rounded-full border border-secondary/30 bg-secondary/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-primary dark:text-secondary;
+  }
+
+  .page-background {
+    @apply bg-[radial-gradient(circle_at_top,_rgba(199,162,75,0.12),_transparent_34%),linear-gradient(180deg,_rgba(248,243,231,0.7),_rgba(255,255,255,0))] dark:bg-[radial-gradient(circle_at_top,_rgba(199,162,75,0.15),_transparent_34%),linear-gradient(180deg,_rgba(15,23,42,0.9),_rgba(15,23,42,1))];
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}

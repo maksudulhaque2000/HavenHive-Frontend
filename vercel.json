@@ -1,0 +1,8 @@
+{
+  "version": 2,
+  "buildCommand": "npm run build",
+  "env": {
+    "NEXT_PUBLIC_API_URL": "@havenhive_api_url",
+    "NEXT_PUBLIC_BASE_URL": "@havenhive_frontend_url"
+  }
+}
