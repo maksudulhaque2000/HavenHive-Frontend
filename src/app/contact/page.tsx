@@ -43,18 +43,20 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="container py-12">
-      <div className="max-w-2xl mx-auto">
-        <h1 className="text-4xl font-bold mb-4 text-center">Contact Us</h1>
-        <p className="text-gray-600 text-center mb-8">
-          Have questions? We&apos;d love to hear from you. Send us a message!
-        </p>
+    <div className="container py-16 lg:py-20">
+      <div className="mx-auto max-w-2xl">
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-black tracking-tight text-slate-900 dark:text-slate-100 sm:text-5xl leading-tight mb-4">Contact Us</h1>
+          <p className="text-base leading-8 text-slate-600 dark:text-slate-400">
+            Have questions? We&apos;d love to hear from you. Send us a message!
+          </p>
+        </div>
 
         {error && <Alert type="error" message={error} onClose={() => setError("")} />}
         {success && <Alert type="success" message={success} onClose={() => setSuccess("")} />}
 
-        <Card>
-          <form onSubmit={handleSubmit} className="space-y-6">
+        <Card className="sm:p-8">
+          <form onSubmit={handleSubmit} className="space-y-7">
             <Input
               label="Name"
               value={formData.name}
@@ -74,18 +76,18 @@ export default function ContactPage() {
               onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
               required
             />
-            <div>
-              <label className="text-sm font-medium">Message</label>
+            <div className="flex flex-col gap-2">
+              <label className="text-sm font-semibold text-slate-900 dark:text-slate-100">Message</label>
               <textarea
                 value={formData.message}
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                 placeholder="Your message here..."
                 rows={6}
-                className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-primary"
+                className="w-full rounded-xl border border-slate-200 bg-white px-5 py-3 text-base text-slate-900 shadow-sm transition placeholder:text-slate-400 focus:border-primary focus:ring-primary/15 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:placeholder:text-slate-500"
                 required
               />
             </div>
-            <Button type="submit" className="w-full" isLoading={isLoading}>
+            <Button type="submit" size="lg" fullWidth loading={isLoading}>
               Send Message
             </Button>
           </form>

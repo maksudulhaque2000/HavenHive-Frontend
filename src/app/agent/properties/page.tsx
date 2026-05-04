@@ -59,7 +59,7 @@ export default function AgentPropertiesPage() {
   return (
     <div className="container py-12">
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-4xl font-bold">My Properties</h1>
+        <h1 className="text-3xl font-bold sm:text-4xl">My Properties</h1>
         <Link href="/agent/properties/create">
           <Button>Add New Property</Button>
         </Link>
@@ -90,8 +90,8 @@ export default function AgentPropertiesPage() {
                   </div>
                 )}
                 <div className="flex-1">
-                  <h3 className="text-xl font-bold mb-2">{property.title}</h3>
-                  <p className="text-primary text-2xl font-bold mb-2">
+                  <h3 className="mb-2 text-lg font-bold sm:text-xl">{property.title}</h3>
+                  <p className="mb-2 text-xl font-bold text-primary sm:text-2xl">
                     {formatCurrency(property.price)}
                   </p>
                   <p className="text-gray-600 text-sm mb-4">

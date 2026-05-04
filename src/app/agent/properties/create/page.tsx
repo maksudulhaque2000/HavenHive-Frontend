@@ -78,7 +78,7 @@ export default function CreatePropertyPage() {
   return (
     <div className="container py-12">
       <div className="max-w-2xl mx-auto">
-        <h1 className="text-4xl font-bold mb-8">Create New Property</h1>
+        <h1 className="mb-8 text-3xl font-bold sm:text-4xl">Create New Property</h1>
 
         {error && <Alert type="error" message={error} onClose={() => setError("")} />}
 
@@ -93,7 +93,7 @@ export default function CreatePropertyPage() {
             />
 
             <div>
-              <label className="text-sm font-medium">Description</label>
+              <label className="text-xs font-medium sm:text-sm">Description</label>
               <textarea
                 name="description"
                 value={formData.description}

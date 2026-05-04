@@ -114,8 +114,8 @@ function VerifyEmailContent() {
       <Card className="mx-auto max-w-md space-y-6">
         <div className="text-center">
           <span className="section-label mb-3">Email Security</span>
-          <h1 className="text-3xl font-black tracking-tight text-slate-900 dark:text-slate-100">Verify email</h1>
-          <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">Complete verification to unlock your full HavenHive experience.</p>
+          <h1 className="text-2xl font-black tracking-tight text-slate-900 dark:text-slate-100 sm:text-3xl">Verify email</h1>
+          <p className="mt-2 text-xs text-slate-600 dark:text-slate-400 sm:text-sm">Complete verification to unlock your full HavenHive experience.</p>
         </div>
 
         {success && <Alert type="success" message={success} />}
@@ -123,7 +123,7 @@ function VerifyEmailContent() {
 
         <Card variant="bordered" className="space-y-3">
           <p className="text-center text-sm text-slate-600 dark:text-slate-400">A verification link was sent to:</p>
-          <p className="text-center text-base font-semibold text-slate-900 dark:text-slate-100">{user.email}</p>
+          <p className="text-center text-sm font-semibold text-slate-900 dark:text-slate-100 sm:text-base">{user.email}</p>
           <p className="text-center text-sm text-slate-500 dark:text-slate-400">
             {user.isVerified ? "Your email is already verified." : "Use the token from your email or tap resend if you did not receive it."}
           </p>

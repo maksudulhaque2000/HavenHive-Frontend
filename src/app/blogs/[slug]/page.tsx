@@ -49,10 +49,10 @@ export default function BlogDetailPage() {
           ← Back to Blog
         </Link>
 
-        <article className="bg-white rounded-lg shadow-md p-8">
-          <h1 className="text-4xl font-bold mb-4">{blog.title}</h1>
+        <article className="rounded-lg bg-white p-6 shadow-md sm:p-8">
+          <h1 className="mb-4 text-3xl font-bold sm:text-4xl">{blog.title}</h1>
 
-          <div className="flex items-center gap-4 mb-8 pb-8 border-b text-gray-600">
+          <div className="mb-8 flex items-center gap-3 border-b pb-8 text-sm text-gray-600 sm:gap-4 sm:text-base">
             <span>{blog.author.name}</span>
             <span>•</span>
             <span>{formatDate(blog.createdAt)}</span>
@@ -63,12 +63,12 @@ export default function BlogDetailPage() {
           </div>
 
           {blog.coverImage && (
-            <div className="relative mb-8 h-96 w-full overflow-hidden rounded-lg">
+            <div className="relative mb-8 h-64 w-full overflow-hidden rounded-lg sm:h-80 lg:h-96">
               <Image src={blog.coverImage} alt={blog.title} fill sizes="(max-width: 768px) 100vw, 768px" className="object-cover" />
             </div>
           )}
 
-          <div className="prose prose-lg max-w-none whitespace-pre-wrap">
+          <div className="prose prose-sm max-w-none whitespace-pre-wrap sm:prose-lg">
             {blog.content}
           </div>
         </article>

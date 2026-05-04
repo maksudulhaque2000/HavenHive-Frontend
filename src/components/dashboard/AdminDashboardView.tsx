@@ -134,27 +134,27 @@ export default function AdminDashboardView() {
     <DashboardShell title="Admin Dashboard" subtitle={`System overview for ${user?.name || "admin"}.`} menu={menu}>
       <div className="space-y-8">
         <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          <Card className="p-6">
+          <Card className="p-5 sm:p-6">
             <p className="text-sm text-slate-500 dark:text-slate-400">Users</p>
-            <p className="mt-3 text-4xl font-black text-slate-900 dark:text-slate-100">{users.length}</p>
+            <p className="mt-3 text-3xl font-black text-slate-900 dark:text-slate-100 sm:text-4xl">{users.length}</p>
           </Card>
-          <Card className="p-6">
+          <Card className="p-5 sm:p-6">
             <p className="text-sm text-slate-500 dark:text-slate-400">Properties</p>
-            <p className="mt-3 text-4xl font-black text-slate-900 dark:text-slate-100">{propertyStats.total || properties.length}</p>
+            <p className="mt-3 text-3xl font-black text-slate-900 dark:text-slate-100 sm:text-4xl">{propertyStats.total || properties.length}</p>
           </Card>
-          <Card className="p-6">
+          <Card className="p-5 sm:p-6">
             <p className="text-sm text-slate-500 dark:text-slate-400">Bookings</p>
-            <p className="mt-3 text-4xl font-black text-slate-900 dark:text-slate-100">{bookings.length}</p>
+            <p className="mt-3 text-3xl font-black text-slate-900 dark:text-slate-100 sm:text-4xl">{bookings.length}</p>
           </Card>
-          <Card className="p-6">
+          <Card className="p-5 sm:p-6">
             <p className="text-sm text-slate-500 dark:text-slate-400">Messages</p>
-            <p className="mt-3 text-4xl font-black text-slate-900 dark:text-slate-100">{contacts.length}</p>
+            <p className="mt-3 text-3xl font-black text-slate-900 dark:text-slate-100 sm:text-4xl">{contacts.length}</p>
           </Card>
         </section>
         <section className="grid gap-6 xl:grid-cols-3">
           <Card className="p-4">
             <span className="section-label">Monthly Listings</span>
-            <h3 className="mt-2 text-xl font-black text-slate-900 dark:text-slate-100">New properties (last 12 months)</h3>
+            <h3 className="mt-2 text-lg font-black text-slate-900 dark:text-slate-100 sm:text-xl">New properties (last 12 months)</h3>
             <div className="h-48 mt-4">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={monthlyPropertiesData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
@@ -170,7 +170,7 @@ export default function AdminDashboardView() {
 
           <Card className="p-4">
             <span className="section-label">User Registrations</span>
-            <h3 className="mt-2 text-xl font-black text-slate-900 dark:text-slate-100">Monthly new users</h3>
+            <h3 className="mt-2 text-lg font-black text-slate-900 dark:text-slate-100 sm:text-xl">Monthly new users</h3>
             <div className="h-48 mt-4">
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={monthlyUsersData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
@@ -186,7 +186,7 @@ export default function AdminDashboardView() {
 
           <Card className="p-4">
             <span className="section-label">Property Types</span>
-            <h3 className="mt-2 text-xl font-black text-slate-900 dark:text-slate-100">Type distribution</h3>
+            <h3 className="mt-2 text-lg font-black text-slate-900 dark:text-slate-100 sm:text-xl">Type distribution</h3>
             <div className="h-48 mt-4">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
@@ -203,21 +203,21 @@ export default function AdminDashboardView() {
         </section>
 
         <section className="grid gap-6 xl:grid-cols-[0.95fr_1.05fr]">
-          <Card className="p-6">
+          <Card className="p-5 sm:p-6">
             <span className="section-label">Health</span>
-            <h2 className="mt-2 text-2xl font-black tracking-tight text-slate-900 dark:text-slate-100">Property metrics</h2>
+            <h2 className="mt-2 text-xl font-black tracking-tight text-slate-900 dark:text-slate-100 sm:text-2xl">Property metrics</h2>
             <div className="mt-5 grid grid-cols-2 gap-3">
               <div className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-900">
                 <p className="text-xs uppercase tracking-[0.2em] text-slate-500">Published</p>
-                <p className="mt-2 text-3xl font-black text-slate-900 dark:text-slate-100">{propertyStats.published || 0}</p>
+                <p className="mt-2 text-2xl font-black text-slate-900 dark:text-slate-100 sm:text-3xl">{propertyStats.published || 0}</p>
               </div>
               <div className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-900">
                 <p className="text-xs uppercase tracking-[0.2em] text-slate-500">Draft</p>
-                <p className="mt-2 text-3xl font-black text-slate-900 dark:text-slate-100">{propertyStats.draft || 0}</p>
+                <p className="mt-2 text-2xl font-black text-slate-900 dark:text-slate-100 sm:text-3xl">{propertyStats.draft || 0}</p>
               </div>
               <div className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-900">
                 <p className="text-xs uppercase tracking-[0.2em] text-slate-500">Featured</p>
-                <p className="mt-2 text-3xl font-black text-slate-900 dark:text-slate-100">{propertyStats.featured || 0}</p>
+                <p className="mt-2 text-2xl font-black text-slate-900 dark:text-slate-100 sm:text-3xl">{propertyStats.featured || 0}</p>
               </div>
               <div className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-900">
                 <p className="text-xs uppercase tracking-[0.2em] text-slate-500">Revenue hint</p>
@@ -230,11 +230,11 @@ export default function AdminDashboardView() {
             </div>
           </Card>
 
-          <Card className="p-6">
+          <Card className="p-5 sm:p-6">
             <div className="flex items-center justify-between gap-4">
               <div>
                 <span className="section-label">Recent items</span>
-                <h2 className="mt-2 text-2xl font-black tracking-tight text-slate-900 dark:text-slate-100">Recent system activity</h2>
+                <h2 className="mt-2 text-xl font-black tracking-tight text-slate-900 dark:text-slate-100 sm:text-2xl">Recent system activity</h2>
               </div>
             </div>
 
@@ -262,9 +262,9 @@ export default function AdminDashboardView() {
         </section>
 
         <section className="grid gap-6 xl:grid-cols-3">
-          <Card className="p-6">
+          <Card className="p-5 sm:p-6">
             <span className="section-label">Users</span>
-            <h3 className="mt-2 text-xl font-black text-slate-900 dark:text-slate-100">Latest users</h3>
+            <h3 className="mt-2 text-lg font-black text-slate-900 dark:text-slate-100 sm:text-xl">Latest users</h3>
             <div className="mt-4 space-y-3">
               {users.slice(0, 4).map((item) => (
                 <div key={item._id || item.id} className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-900">
@@ -274,9 +274,9 @@ export default function AdminDashboardView() {
               ))}
             </div>
           </Card>
-          <Card className="p-6">
+          <Card className="p-5 sm:p-6">
             <span className="section-label">Properties</span>
-            <h3 className="mt-2 text-xl font-black text-slate-900 dark:text-slate-100">Latest properties</h3>
+            <h3 className="mt-2 text-lg font-black text-slate-900 dark:text-slate-100 sm:text-xl">Latest properties</h3>
             <div className="mt-4 space-y-3">
               {properties.slice(0, 4).map((item) => (
                 <div key={item._id || item.id} className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-900">
@@ -286,9 +286,9 @@ export default function AdminDashboardView() {
               ))}
             </div>
           </Card>
-          <Card className="p-6">
+          <Card className="p-5 sm:p-6">
             <span className="section-label">Messages</span>
-            <h3 className="mt-2 text-xl font-black text-slate-900 dark:text-slate-100">Latest contact requests</h3>
+            <h3 className="mt-2 text-lg font-black text-slate-900 dark:text-slate-100 sm:text-xl">Latest contact requests</h3>
             <div className="mt-4 space-y-3">
               {contacts.slice(0, 4).map((item) => (
                 <div key={item._id || item.id} className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-900">

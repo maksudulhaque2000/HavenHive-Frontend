@@ -27,6 +27,7 @@ export default function LoginForm() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [isDemoMode, setIsDemoMode] = useState(false);
   const { setSession } = useAuthStore();
   const router = useRouter();
   const {
@@ -49,14 +50,17 @@ export default function LoginForm() {
     }
   }, [setValue]);
 
-  const fillDemoCredentials = (variant: "user" | "admin") => {
+  const fillDemoCredentials = (variant: "user" | "admin" | "agent") => {
     const credentials =
       variant === "admin"
-        ? { email: "admin@havenhive.com", password: "Admin@1234" }
-        : { email: "demo@havenhive.com", password: "Demo@1234" };
+        ? { email: "admin@gmail.com", password: "Password@123" }
+        : variant === "agent"
+          ? { email: "agent@gmail.com", password: "Password@123" }
+          : { email: "user@gmail.com", password: "Password@123" };
 
     setValue("email", credentials.email);
     setValue("password", credentials.password);
+    setIsDemoMode(true);
     window.localStorage.setItem("havenhive_demo_email", credentials.email);
   };
 
@@ -71,7 +75,8 @@ export default function LoginForm() {
         window.localStorage.setItem("havenhive_remember_me", String(Boolean(values.rememberMe)));
         toastEvents.emit({ type: "success", message: "Welcome back to HavenHive." });
 
-        const redirectTarget = window.localStorage.getItem("havenhive_redirect_after_login") || "/";
+        const defaultTarget = response.user.role === "admin" ? "/dashboard/admin" : "/dashboard/user";
+        const redirectTarget = window.localStorage.getItem("havenhive_redirect_after_login") || defaultTarget;
         window.localStorage.removeItem("havenhive_redirect_after_login");
         router.replace(redirectTarget);
       } else {
@@ -85,25 +90,28 @@ export default function LoginForm() {
   };
 
   return (
-    <Card className="mx-auto max-w-md space-y-6">
-      <div className="text-center">
-        <span className="section-label mb-3">Secure Access</span>
-        <h1 className="text-3xl font-black tracking-tight text-slate-900 dark:text-slate-100">Login to HavenHive</h1>
-        <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">Continue to your personalized property dashboard.</p>
+    <Card className="mx-auto max-w-md space-y-8 sm:max-w-lg sm:p-8">
+      <div className="space-y-4 text-center">
+        <span className="section-label mb-4">Secure Access</span>
+        <h1 className="text-3xl font-black tracking-tight text-slate-900 dark:text-slate-100 sm:text-4xl leading-tight">Login to HavenHive</h1>
+        <p className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-400">Continue to your personalized property dashboard.</p>
       </div>
 
       {error && <Alert type="error" message={error} onClose={() => setError("")} />}
 
-      <div className="grid grid-cols-2 gap-3">
-        <Button type="button" variant="outline" leftIcon={<Sparkles className="h-4 w-4" />} onClick={() => fillDemoCredentials("user")}>
-          Demo User Login
+      <div className="grid gap-3 sm:grid-cols-3">
+        <Button type="button" variant="outline" size="md" leftIcon={<Sparkles className="h-4 w-4" />} onClick={() => fillDemoCredentials("user")}>
+          Demo User
         </Button>
-        <Button type="button" variant="outline" leftIcon={<Sparkles className="h-4 w-4" />} onClick={() => fillDemoCredentials("admin")}>
-          Demo Admin Login
+        <Button type="button" variant="outline" size="md" leftIcon={<Sparkles className="h-4 w-4" />} onClick={() => fillDemoCredentials("admin")}>
+          Demo Admin
+        </Button>
+        <Button type="button" variant="outline" size="md" leftIcon={<Sparkles className="h-4 w-4" />} onClick={() => fillDemoCredentials("agent")}>
+          Demo Agent
         </Button>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
         <Input
           label="Email"
           type="email"
@@ -118,9 +126,11 @@ export default function LoginForm() {
           placeholder="Enter your password"
           prefix={<Lock className="h-4 w-4" />}
           suffix={
-            <button type="button" onClick={() => setShowPassword((value) => !value)} className="text-slate-400 hover:text-slate-700 dark:hover:text-slate-200">
-              {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-            </button>
+            !isDemoMode && (
+              <button type="button" onClick={() => setShowPassword((value) => !value)} className="text-slate-400 transition-colors hover:text-slate-700 dark:hover:text-slate-200">
+                {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+              </button>
+            )
           }
           error={errors.password?.message}
           {...register("password")}
@@ -131,18 +141,18 @@ export default function LoginForm() {
           Remember me on this device
         </label>
 
-        <Button type="submit" fullWidth loading={isLoading}>
+        <Button type="submit" size="lg" fullWidth loading={isLoading}>
           Login
         </Button>
       </form>
 
-      <div className="space-y-2 text-center text-sm text-slate-600 dark:text-slate-400">
-        <Link href="/auth/forgot-password" className="block font-medium text-primary hover:underline">
+      <div className="space-y-3 text-center text-sm text-slate-600 dark:text-slate-400">
+        <Link href="/auth/forgot-password" className="block font-medium text-primary transition-colors hover:underline">
           Forgot your password?
         </Link>
         <p>
           Don&apos;t have an account?{" "}
-          <Link href="/auth/register" className="font-medium text-primary hover:underline">
+          <Link href="/auth/register" className="font-medium text-primary transition-colors hover:underline">
             Sign up
           </Link>
         </p>

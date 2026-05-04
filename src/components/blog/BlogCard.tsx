@@ -27,10 +27,10 @@ export default function BlogCard({ blog, featured = false }: BlogCardProps) {
             <div className="flex h-full min-h-64 items-center justify-center text-primary">No cover image</div>
           )}
         </div>
-        <div className="flex flex-col justify-between gap-4 p-6">
+        <div className="flex flex-col justify-between gap-4 p-5 sm:p-6">
           <div className="space-y-4">
             <Badge variant="info">{blog.category}</Badge>
-            <h3 className={featured ? "text-3xl font-black tracking-tight text-slate-900 dark:text-slate-100" : "text-2xl font-black tracking-tight text-slate-900 dark:text-slate-100"}>
+            <h3 className={featured ? "text-2xl font-black tracking-tight text-slate-900 dark:text-slate-100 sm:text-3xl" : "text-xl font-black tracking-tight text-slate-900 dark:text-slate-100 sm:text-2xl"}>
               {blog.title}
             </h3>
             <p className="text-sm leading-6 text-slate-600 dark:text-slate-400">{truncate(blog.content, featured ? 220 : 140)}</p>

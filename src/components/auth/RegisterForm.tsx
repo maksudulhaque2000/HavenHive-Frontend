@@ -86,8 +86,8 @@ export default function RegisterForm() {
     <Card className="mx-auto max-w-md space-y-6">
       <div className="text-center">
         <span className="section-label mb-3">Join HavenHive</span>
-        <h1 className="text-3xl font-black tracking-tight text-slate-900 dark:text-slate-100">Create your account</h1>
-        <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">Register to save properties, book visits, and manage your profile.</p>
+        <h1 className="text-2xl font-black tracking-tight text-slate-900 dark:text-slate-100 sm:text-3xl">Create your account</h1>
+        <p className="mt-2 text-xs text-slate-600 dark:text-slate-400 sm:text-sm">Register to save properties, book visits, and manage your profile.</p>
       </div>
 
       {error && <Alert type="error" message={error} onClose={() => setError("")} />}

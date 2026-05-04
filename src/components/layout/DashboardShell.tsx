@@ -135,25 +135,25 @@ export default function DashboardShell({ title, subtitle, menu, children }: Dash
       </aside>
 
       <div className={cn("flex-1", "lg:pl-64", collapsed && "lg:pl-20")}>
-        <header className="sticky top-20 z-30 border-b border-slate-200 bg-white/90 backdrop-blur dark:border-slate-800 dark:bg-slate-950/90">
-          <div className="flex items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
-            <div className="flex items-center gap-3">
-              <button type="button" onClick={() => setMobileOpen(true)} className="rounded-xl border border-slate-200 p-2 text-slate-700 lg:hidden dark:border-slate-800 dark:text-slate-300" aria-label="Open navigation">
+        <header className="sticky top-20 z-30 border-b border-slate-200 bg-white/95 backdrop-blur-sm dark:border-slate-800 dark:bg-slate-950/95">
+          <div className="flex items-center justify-between gap-4 px-4 py-5 sm:px-6 lg:px-8">
+            <div className="flex items-center gap-4">
+              <button type="button" onClick={() => setMobileOpen(true)} className="rounded-xl border border-slate-200 p-2.5 text-slate-700 transition-colors lg:hidden dark:border-slate-800 dark:text-slate-300" aria-label="Open navigation">
                 <Menu className="h-5 w-5" />
               </button>
               <div>
-                <h1 className="text-xl font-black tracking-tight text-slate-900 dark:text-slate-100">{title}</h1>
-                {subtitle && <p className="text-sm text-slate-500 dark:text-slate-400">{subtitle}</p>}
+                <h1 className="text-xl font-black tracking-tight text-slate-900 dark:text-slate-100 sm:text-2xl">{title}</h1>
+                {subtitle && <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{subtitle}</p>}
               </div>
             </div>
 
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-4">
               <ThemeToggle />
-              <button type="button" className="relative rounded-xl border border-slate-200 p-2 text-slate-700 dark:border-slate-800 dark:text-slate-300" aria-label="Notifications">
+              <button type="button" className="relative rounded-xl border border-slate-200 p-2.5 text-slate-700 transition-colors dark:border-slate-800 dark:text-slate-300" aria-label="Notifications">
                 <Bell className="h-5 w-5" />
                 <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-secondary" />
               </button>
-              <div className="hidden rounded-2xl border border-slate-200 bg-white px-4 py-2 text-right shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:block">
+              <div className="hidden rounded-2xl border border-slate-200 bg-white px-4 py-3 text-right shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:block">
                 <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">{user?.name}</p>
                 <p className="text-xs text-slate-500 dark:text-slate-400 capitalize">{user?.role}</p>
               </div>
@@ -161,7 +161,7 @@ export default function DashboardShell({ title, subtitle, menu, children }: Dash
           </div>
         </header>
 
-        <section className="px-4 py-6 sm:px-6 lg:px-8">{children}</section>
+        <section className="px-4 py-8 sm:px-6 lg:px-8">{children}</section>
       </div>
     </div>
   );

@@ -108,17 +108,17 @@ export default function PropertiesPage() {
   };
 
   return (
-    <div className="space-y-8 py-8">
-      <section className="container space-y-6">
-        <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-          <div className="space-y-3">
+    <div className="space-y-12 py-10">
+      <section className="container space-y-8">
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+          <div className="space-y-4">
             <span className="section-label">Explore</span>
-            <h1 className="text-4xl font-black tracking-tight text-slate-900 dark:text-slate-100">Find the right property</h1>
-            <p className="max-w-2xl text-sm leading-6 text-slate-600 dark:text-slate-400">Search by location, price, and property type to narrow your shortlist quickly.</p>
+            <h1 className="text-4xl font-black tracking-tight text-slate-900 dark:text-slate-100 sm:text-5xl leading-tight">Find the right property</h1>
+            <p className="max-w-2xl text-base leading-7 text-slate-600 dark:text-slate-400">Search by location, price, and property type to narrow your shortlist quickly.</p>
           </div>
           {user?.role === "agent" || user?.role === "admin" ? (
             <Link href="/agent/properties/create">
-              <Button leftIcon={<SlidersHorizontal className="h-4 w-4" />}>Add Property</Button>
+              <Button size="lg" leftIcon={<SlidersHorizontal className="h-5 w-5" />}>Add Property</Button>
             </Link>
           ) : null}
         </div>
@@ -146,11 +146,11 @@ export default function PropertiesPage() {
               onChange={(event) => updateFilter("state", event.target.value)}
             />
             <div className="flex flex-col gap-1">
-              <label className="text-sm font-medium text-slate-900 dark:text-slate-100">Type</label>
+              <label className="text-xs font-medium text-slate-900 dark:text-slate-100 sm:text-sm">Type</label>
               <select
                 value={filters.type}
                 onChange={(event) => updateFilter("type", event.target.value)}
-                className="h-12 rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-900 shadow-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+                className="h-11 rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-900 shadow-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
               >
                 {propertyTypes.map((type) => (
                   <option key={type.value || "all-types"} value={type.value}>
@@ -163,11 +163,11 @@ export default function PropertiesPage() {
 
           <div className="grid gap-4 lg:grid-cols-4">
             <div className="flex flex-col gap-1">
-              <label className="text-sm font-medium text-slate-900 dark:text-slate-100">Purpose</label>
+              <label className="text-xs font-medium text-slate-900 dark:text-slate-100 sm:text-sm">Purpose</label>
               <select
                 value={filters.purpose}
                 onChange={(event) => updateFilter("purpose", event.target.value)}
-                className="h-12 rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-900 shadow-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+                className="h-11 rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-900 shadow-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
               >
                 <option value="">All purpose</option>
                 <option value="sale">For Sale</option>

@@ -29,20 +29,20 @@ export default function Button({
 
   const variants = {
     primary:
-      "bg-primary text-primary-foreground shadow-sm hover:bg-primary/90 disabled:bg-slate-400",
+      "bg-primary text-primary-foreground shadow-sm hover:bg-primary/95 hover:shadow-md disabled:bg-slate-400",
     secondary:
-      "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/90 disabled:bg-slate-400",
+      "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/95 hover:shadow-md disabled:bg-slate-400",
     danger:
-      "bg-danger text-danger-foreground shadow-sm hover:bg-danger/90 disabled:bg-slate-400",
+      "bg-danger text-danger-foreground shadow-sm hover:bg-danger/95 hover:shadow-md disabled:bg-slate-400",
     ghost:
-      "bg-transparent text-primary hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-50",
+      "bg-transparent text-primary hover:bg-slate-50 dark:hover:bg-slate-900 disabled:opacity-50",
     outline:
-      "border border-slate-300 bg-white text-slate-900 hover:border-primary hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100",
+      "border border-slate-300 bg-white text-slate-900 hover:border-primary hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:hover:bg-slate-800",
   };
 
   const sizes = {
-    sm: "h-9 px-3 text-sm",
-    md: "h-11 px-4 text-sm",
+    sm: "h-9 px-4 text-sm",
+    md: "h-11 px-5 text-base",
     lg: "h-12 px-6 text-base",
   };
 

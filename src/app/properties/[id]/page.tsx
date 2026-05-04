@@ -139,31 +139,31 @@ export default function PropertyDetailPage() {
 
           {/* Details */}
           <Card className="mb-8">
-            <h1 className="text-4xl font-bold mb-4">{property.title}</h1>
+            <h1 className="mb-4 text-3xl font-bold sm:text-4xl">{property.title}</h1>
             <div className="grid grid-cols-2 gap-4 mb-6">
               <div>
                 <p className="text-gray-600">Bedrooms</p>
-                <p className="text-2xl font-bold">{property.bedrooms}</p>
+                <p className="text-xl font-bold sm:text-2xl">{property.bedrooms}</p>
               </div>
               <div>
                 <p className="text-gray-600">Bathrooms</p>
-                <p className="text-2xl font-bold">{property.bathrooms}</p>
+                <p className="text-xl font-bold sm:text-2xl">{property.bathrooms}</p>
               </div>
               <div>
                 <p className="text-gray-600">Area</p>
-                <p className="text-2xl font-bold">{property.area} sqft</p>
+                <p className="text-xl font-bold sm:text-2xl">{property.area} sqft</p>
               </div>
               <div>
                 <p className="text-gray-600">Parking</p>
-                <p className="text-2xl font-bold">{property.parking || 0}</p>
+                <p className="text-xl font-bold sm:text-2xl">{property.parking || 0}</p>
               </div>
             </div>
 
-            <h3 className="text-xl font-bold mb-2">Description</h3>
-            <p className="text-gray-600 mb-6">{property.description}</p>
+            <h3 className="mb-2 text-lg font-bold sm:text-xl">Description</h3>
+            <p className="mb-6 text-sm text-gray-600 sm:text-base">{property.description}</p>
 
-            <h3 className="text-xl font-bold mb-2">Location</h3>
-            <p className="text-gray-600">
+            <h3 className="mb-2 text-lg font-bold sm:text-xl">Location</h3>
+            <p className="text-sm text-gray-600 sm:text-base">
               {property.location.address}, {property.location.city}, {property.location.state}{" "}
               {property.location.country}
             </p>
@@ -180,11 +180,11 @@ export default function PropertyDetailPage() {
 
           {/* Reviews */}
           <Card className="mb-8">
-            <h3 className="text-2xl font-bold mb-6">Reviews ({reviews.length})</h3>
+            <h3 className="mb-6 text-xl font-bold sm:text-2xl">Reviews ({reviews.length})</h3>
 
             {user && (
               <form onSubmit={handleSubmitReview} className="mb-8 p-4 bg-gray-50 rounded-lg">
-                <h4 className="font-bold mb-4">Leave a Review</h4>
+                <h4 className="mb-4 font-bold text-sm sm:text-base">Leave a Review</h4>
                 <div className="mb-4">
                   <label className="block mb-2">Rating</label>
                   <Rating
@@ -228,11 +228,11 @@ export default function PropertyDetailPage() {
         {/* Sidebar */}
         <div>
           <Card className="sticky top-20 mb-8">
-            <p className="text-primary text-4xl font-bold mb-4">{formatCurrency(property.price)}</p>
+            <p className="mb-4 text-3xl font-bold text-primary sm:text-4xl">{formatCurrency(property.price)}</p>
             <p className="text-gray-600 mb-4">{property.purpose === "rent" ? "/month" : ""}</p>
 
             <div className="mb-6 p-4 bg-gray-50 rounded-lg">
-              <p className="font-bold mb-2">Agent</p>
+              <p className="mb-2 text-sm font-bold sm:text-base">Agent</p>
               <p className="text-gray-600">{property.agent.name}</p>
               <p className="text-gray-600">{property.agent.phone}</p>
               <p className="text-gray-600">{property.agent.email}</p>

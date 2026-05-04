@@ -29,7 +29,7 @@ export default function BlogsPage() {
 
   return (
     <div className="container py-12">
-      <h1 className="text-4xl font-bold mb-8">Blog</h1>
+      <h1 className="mb-8 text-3xl font-bold sm:text-4xl">Blog</h1>
 
       {isLoading ? (
         <LoadingSpinner />
@@ -42,13 +42,13 @@ export default function BlogsPage() {
           {blogs.map((blog) => (
             <Link key={blog._id} href={`/blogs/${blog.slug}`}>
               <Card className="hover:shadow-lg cursor-pointer">
-                <div className="flex justify-between items-start gap-4">
+                <div className="flex items-start justify-between gap-4">
                   <div className="flex-1">
-                    <h3 className="text-2xl font-bold mb-2 text-primary hover:underline">
+                    <h3 className="mb-2 text-xl font-bold text-primary hover:underline sm:text-2xl">
                       {blog.title}
                     </h3>
-                    <p className="text-gray-600 mb-4 line-clamp-2">{blog.content}</p>
-                    <div className="flex items-center gap-4 text-sm text-gray-600">
+                    <p className="mb-4 line-clamp-2 text-sm text-gray-600">{blog.content}</p>
+                    <div className="flex flex-wrap items-center gap-3 text-xs text-gray-600 sm:gap-4 sm:text-sm">
                       <span>{blog.author.name}</span>
                       <span>{formatDate(blog.createdAt)}</span>
                       <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full">

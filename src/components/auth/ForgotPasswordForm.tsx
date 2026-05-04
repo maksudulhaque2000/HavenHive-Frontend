@@ -54,8 +54,8 @@ export default function ForgotPasswordForm() {
     <Card className="mx-auto max-w-md space-y-6">
       <div className="text-center">
         <span className="section-label mb-3">Password Help</span>
-        <h1 className="text-3xl font-black tracking-tight text-slate-900 dark:text-slate-100">Forgot password</h1>
-        <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">We&apos;ll send a reset link to your email address.</p>
+        <h1 className="text-2xl font-black tracking-tight text-slate-900 dark:text-slate-100 sm:text-3xl">Forgot password</h1>
+        <p className="mt-2 text-xs text-slate-600 dark:text-slate-400 sm:text-sm">We&apos;ll send a reset link to your email address.</p>
       </div>
 
       {success && <Alert type="success" message={success} />}

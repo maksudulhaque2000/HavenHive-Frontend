@@ -31,25 +31,25 @@ const Input = React.forwardRef<HTMLInputElement | HTMLTextAreaElement, InputProp
   ) => {
     const inputId = id || `input-${label || (props as any).name || "field"}`;
     const sharedStyles = cn(
-      "w-full rounded-xl border bg-white px-4 py-3 text-sm text-slate-900 shadow-sm transition placeholder:text-slate-400 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:placeholder:text-slate-500",
+      "w-full rounded-xl border bg-white px-5 py-3 text-base text-slate-900 shadow-sm transition placeholder:text-slate-400 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:placeholder:text-slate-500",
       error
         ? "border-danger focus:border-danger focus:ring-danger/20"
         : "border-slate-200 focus:border-primary focus:ring-primary/15 dark:border-slate-700",
-      prefix ? "pl-11" : undefined,
-      suffix ? "pr-11" : undefined,
+      prefix ? "pl-12" : undefined,
+      suffix ? "pr-12" : undefined,
       className
     );
 
     return (
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-2">
         {label && (
-          <label htmlFor={inputId} className="text-sm font-medium text-slate-900 dark:text-slate-100">
+          <label htmlFor={inputId} className="text-sm font-semibold text-slate-900 dark:text-slate-100">
             {label}
           </label>
         )}
         <div className="relative">
-          {prefix && <div className="pointer-events-none absolute inset-y-0 left-3 flex items-center text-slate-400">{prefix}</div>}
-          {suffix && <div className="absolute inset-y-0 right-3 flex items-center text-slate-400">{suffix}</div>}
+          {prefix && <div className="pointer-events-none absolute inset-y-0 left-4 flex items-center text-slate-400">{prefix}</div>}
+          {suffix && <div className="absolute inset-y-0 right-4 flex items-center text-slate-400">{suffix}</div>}
           {as === "textarea" ? (
             <textarea id={inputId} rows={rows} ref={ref as React.LegacyRef<HTMLTextAreaElement>} className={sharedStyles} {...(props as React.TextareaHTMLAttributes<HTMLTextAreaElement>)} />
           ) : (

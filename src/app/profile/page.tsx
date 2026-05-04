@@ -53,7 +53,7 @@ export default function ProfilePage() {
   return (
     <div className="container py-12">
       <div className="max-w-2xl mx-auto">
-        <h1 className="text-4xl font-bold mb-8">My Profile</h1>
+        <h1 className="mb-8 text-3xl font-bold sm:text-4xl">My Profile</h1>
 
         {error && <Alert type="error" message={error} onClose={() => setError("")} />}
         {success && <Alert type="success" message={success} onClose={() => setSuccess("")} />}
@@ -62,11 +62,11 @@ export default function ProfilePage() {
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <p className="text-sm text-gray-600">Email</p>
+                <p className="text-xs text-gray-600 sm:text-sm">Email</p>
                 <p className="font-bold">{user.email}</p>
               </div>
               <div>
-                <p className="text-sm text-gray-600">Role</p>
+                <p className="text-xs text-gray-600 sm:text-sm">Role</p>
                 <p className="font-bold capitalize">{user.role}</p>
               </div>
             </div>
@@ -85,7 +85,7 @@ export default function ProfilePage() {
             />
 
             <div>
-              <p className="text-sm text-gray-600 mb-2">Email Verification</p>
+              <p className="mb-2 text-xs text-gray-600 sm:text-sm">Email Verification</p>
               <p className={`font-bold ${user.isVerified ? "text-green-600" : "text-red-600"}`}>
                 {user.isVerified ? "✓ Verified" : "✕ Not Verified"}
               </p>

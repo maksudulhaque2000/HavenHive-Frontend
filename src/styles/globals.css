@@ -16,7 +16,7 @@
   }
 
   html {
-    @apply scroll-smooth bg-light text-slate-900 dark:bg-slate-950 dark:text-slate-100;
+    @apply scroll-smooth bg-light text-[16px] text-slate-900 dark:bg-slate-950 dark:text-slate-100;
   }
 
   body {
@@ -56,15 +56,15 @@
   }
 
   .glass-panel {
-    @apply border border-white/40 bg-white/85 shadow-soft backdrop-blur dark:border-slate-700 dark:bg-slate-900/85;
+    @apply border border-slate-200/60 bg-white/95 shadow-sm backdrop-blur-sm dark:border-slate-700/40 dark:bg-slate-900/95;
   }
 
   .section-label {
-    @apply inline-flex items-center rounded-full border border-secondary/30 bg-secondary/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-primary dark:text-secondary;
+    @apply inline-flex items-center rounded-full border border-secondary/20 bg-secondary/10 px-3 py-1.5 text-[12px] font-semibold uppercase tracking-[0.16em] text-secondary/80 dark:text-secondary/70;
   }
 
   .page-background {
-    @apply bg-[radial-gradient(circle_at_top,_rgba(199,162,75,0.12),_transparent_34%),linear-gradient(180deg,_rgba(248,243,231,0.7),_rgba(255,255,255,0))] dark:bg-[radial-gradient(circle_at_top,_rgba(199,162,75,0.15),_transparent_34%),linear-gradient(180deg,_rgba(15,23,42,0.9),_rgba(15,23,42,1))];
+    @apply bg-[radial-gradient(circle_at_top,_rgba(199,162,75,0.08),_transparent_40%),linear-gradient(180deg,_rgba(248,243,231,0.5),_rgba(255,255,255,0))] dark:bg-[radial-gradient(circle_at_top,_rgba(199,162,75,0.08),_transparent_40%),linear-gradient(180deg,_rgba(15,23,42,0.95),_rgba(15,23,42,1))];
   }
 }
 

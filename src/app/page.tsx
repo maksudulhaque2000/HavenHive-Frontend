@@ -97,20 +97,20 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div className="space-y-24 pb-16">
-      <section className="container pt-10 lg:pt-16">
-        <div className="grid gap-8 lg:grid-cols-[1.08fr_0.92fr] lg:items-center">
-          <div className="space-y-8">
+    <div className="space-y-32 pb-20">
+      <section className="container pt-12 lg:pt-20">
+        <div className="grid gap-12 lg:grid-cols-[1.08fr_0.92fr] lg:items-center">
+          <div className="space-y-10">
             <Badge variant="warning" className="w-fit">Trusted real estate marketplace</Badge>
-            <div className="space-y-5">
-              <h1 className="max-w-3xl text-5xl font-black tracking-tight text-slate-900 text-balance dark:text-slate-100 md:text-6xl">
+            <div className="space-y-6">
+              <h1 className="max-w-3xl text-4xl font-black tracking-tight text-slate-900 text-balance dark:text-slate-100 sm:text-5xl lg:text-6xl leading-tight">
                 Find the home, investment, or rental that feels right.
               </h1>
-              <p className="max-w-2xl text-lg leading-8 text-slate-600 dark:text-slate-400">
+              <p className="max-w-2xl text-base leading-8 text-slate-600 sm:text-lg dark:text-slate-400">
                 HavenHive brings curated property listings, agent-backed support, and transparent booking flows together in one premium marketplace.
               </p>
             </div>
-            <div className="flex flex-col gap-3 sm:flex-row">
+            <div className="flex flex-col gap-4 sm:flex-row">
               <Link href="/properties">
                 <Button size="lg" rightIcon={<ArrowRight className="h-5 w-5" />}>
                   Explore Properties
@@ -123,50 +123,50 @@ export default function HomePage() {
               </Link>
             </div>
             {/* Search Widget */}
-            <div className="mt-6">
+            <div className="mt-8">
               <SearchWidget />
             </div>
-            <div className="grid gap-4 sm:grid-cols-3">
+            <div className="grid gap-6 sm:grid-cols-3 pt-4">
               {[
                 { label: "Live listings", value: stats.total || 1200 },
                 { label: "Happy clients", value: 2800 },
                 { label: "Verified agents", value: 45 },
               ].map((item) => (
-                <Card key={item.label} variant="bordered" className="p-5">
+                <Card key={item.label} variant="bordered" className="p-5 sm:p-6">
                   <p className="text-sm text-slate-500 dark:text-slate-400">{item.label}</p>
-                  <p className="mt-2 text-3xl font-black tracking-tight text-slate-900 dark:text-slate-100">{formatNumber(item.value)}</p>
+                  <p className="mt-3 text-3xl font-black tracking-tight text-slate-900 dark:text-slate-100">{formatNumber(item.value)}</p>
                 </Card>
               ))}
             </div>
           </div>
 
           <Card className="relative overflow-hidden p-0">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(199,162,75,0.18),_transparent_42%),linear-gradient(135deg,_rgba(20,50,79,0.96),_rgba(20,50,79,0.82))]" />
-            <div className="relative p-6 text-white">
-              <div className="mb-8 flex items-center justify-between">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(199,162,75,0.2),_transparent_45%),linear-gradient(135deg,_rgba(20,50,79,0.97),_rgba(20,50,79,0.85))]" />
+            <div className="relative p-8 text-white">
+              <div className="mb-10 flex items-center justify-between">
                 <div>
-                  <p className="text-sm uppercase tracking-[0.3em] text-white/70">Featured insight</p>
-                  <h2 className="mt-2 text-2xl font-black">Smart search, real results</h2>
+                  <p className="text-[12px] uppercase tracking-[0.24em] text-white/70">Featured insight</p>
+                  <h2 className="mt-3 text-2xl font-black sm:text-3xl leading-tight">Smart search, real results</h2>
                 </div>
-                <PlayCircle className="h-10 w-10 text-secondary" />
+                <PlayCircle className="h-10 w-10 text-secondary flex-shrink-0" />
               </div>
 
-              <div className="space-y-4 rounded-3xl bg-white/10 p-5 backdrop-blur">
+              <div className="space-y-5 rounded-3xl bg-white/10 p-6 backdrop-blur">
                 <div className="flex items-center gap-3">
-                  <Sparkles className="h-5 w-5 text-secondary" />
+                  <Sparkles className="h-5 w-5 text-secondary flex-shrink-0" />
                   <p className="text-sm font-semibold">Personalized recommendations</p>
                 </div>
                 <p className="text-sm leading-7 text-white/80">
                   Browse hand-picked apartments, villas, commercial spaces, and rental homes with filters that make it simple to narrow down the right fit.
                 </p>
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="rounded-2xl bg-white/10 p-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="rounded-2xl bg-white/10 p-5">
                     <p className="text-xs uppercase tracking-[0.2em] text-white/60">Featured</p>
-                    <p className="mt-2 text-2xl font-black text-secondary">{formatNumber(stats.featured || featured.length || 0)}</p>
+                    <p className="mt-3 text-2xl font-black text-secondary">{formatNumber(stats.featured || featured.length || 0)}</p>
                   </div>
-                  <div className="rounded-2xl bg-white/10 p-4">
+                  <div className="rounded-2xl bg-white/10 p-5">
                     <p className="text-xs uppercase tracking-[0.2em] text-white/60">Published</p>
-                    <p className="mt-2 text-2xl font-black text-secondary">{formatNumber(stats.published || 0)}</p>
+                    <p className="mt-3 text-2xl font-black text-secondary">{formatNumber(stats.published || 0)}</p>
                   </div>
                 </div>
               </div>
@@ -175,25 +175,25 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="container space-y-6">
+      <section className="container space-y-8">
         <div className="flex items-end justify-between gap-4">
           <div>
             <span className="section-label">Browse by category</span>
-            <h2 className="mt-3 text-3xl font-black tracking-tight text-slate-900 dark:text-slate-100">Popular property categories</h2>
+            <h2 className="mt-4 text-3xl font-black tracking-tight text-slate-900 dark:text-slate-100 sm:text-4xl">Popular property categories</h2>
           </div>
           <Link href="/properties" className="hidden text-sm font-semibold text-primary md:inline-flex">
             View all properties
           </Link>
         </div>
-        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
           {categories.map((category) => {
             const Icon = category.icon;
             return (
               <Link key={category.label} href={category.href}>
-                <Card className="group h-full p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-lift">
-                  <Icon className="h-8 w-8 text-secondary transition group-hover:scale-110" />
-                  <h3 className="mt-4 text-xl font-bold text-slate-900 dark:text-slate-100">{category.label}</h3>
-                  <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">Tailored collections to help you move quickly.</p>
+                <Card className="group h-full transition-all duration-300 hover:shadow-md sm:p-7">
+                  <Icon className="h-8 w-8 text-secondary transition group-hover:scale-110 sm:h-9 sm:w-9" />
+                  <h3 className="mt-5 text-lg font-bold text-slate-900 dark:text-slate-100 sm:text-xl">{category.label}</h3>
+                  <p className="mt-3 text-sm leading-6 text-slate-600 dark:text-slate-400">Tailored collections to help you move quickly.</p>
                 </Card>
               </Link>
             );
@@ -201,82 +201,82 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="container space-y-6">
+      <section className="container space-y-8">
         <div>
           <span className="section-label">Statistics</span>
-          <h2 className="mt-3 text-3xl font-black tracking-tight text-slate-900 dark:text-slate-100">Dynamic platform metrics</h2>
+          <h2 className="mt-4 text-3xl font-black tracking-tight text-slate-900 dark:text-slate-100 sm:text-4xl">Dynamic platform metrics</h2>
         </div>
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
           {[
             { label: "Total properties", value: stats.total || 0 },
             { label: "Published listings", value: stats.published || 0 },
             { label: "Draft listings", value: stats.draft || 0 },
             { label: "Featured homes", value: stats.featured || 0 },
           ].map((item) => (
-            <Card key={item.label} className="p-6">
+            <Card key={item.label} className="sm:p-7">
               <p className="text-sm text-slate-500 dark:text-slate-400">{item.label}</p>
-              <p className="mt-3 text-4xl font-black tracking-tight text-slate-900 dark:text-slate-100">{formatNumber(item.value)}</p>
+              <p className="mt-4 text-4xl font-black tracking-tight text-slate-900 dark:text-slate-100">{formatNumber(item.value)}</p>
             </Card>
           ))}
         </div>
       </section>
 
-      <section className="container space-y-6">
+      <section className="container space-y-8">
         <div>
           <span className="section-label">Featured listings</span>
-          <h2 className="mt-3 text-3xl font-black tracking-tight text-slate-900 dark:text-slate-100">Curated properties worth a closer look</h2>
+          <h2 className="mt-4 text-3xl font-black tracking-tight text-slate-900 dark:text-slate-100 sm:text-4xl">Curated properties worth a closer look</h2>
         </div>
         {isLoading ? (
           <LoadingSpinner />
         ) : featured.length > 0 ? (
-          <div className="grid gap-6 lg:grid-cols-2 xl:grid-cols-3">
+          <div className="grid gap-8 lg:grid-cols-2 xl:grid-cols-3">
             {featured.slice(0, 6).map((property) => (
               <PropertyCard key={property.slug || property._id} property={property} />
             ))}
           </div>
         ) : (
-          <Card className="text-center text-slate-500 dark:text-slate-400">No featured properties available right now.</Card>
+          <Card className="text-center text-slate-500 dark:text-slate-400 py-12">No featured properties available right now.</Card>
         )}
       </section>
 
-      <section className="container space-y-6">
+      <section className="container space-y-8">
         <div>
           <span className="section-label">How it works</span>
-          <h2 className="mt-3 text-3xl font-black tracking-tight text-slate-900 dark:text-slate-100">A simple path from search to move-in</h2>
+          <h2 className="mt-4 text-3xl font-black tracking-tight text-slate-900 dark:text-slate-100 sm:text-4xl">A simple path from search to move-in</h2>
         </div>
-        <div className="grid gap-4 lg:grid-cols-3">
+        <div className="grid gap-6 lg:grid-cols-3">
           {howItWorks.map((step, index) => {
             const Icon = step.icon;
             return (
-              <Card key={step.title} className="space-y-4 p-6">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary text-white shadow-soft">
-                  <Icon className="h-5 w-5" />
+              <Card key={step.title} className="space-y-5 sm:p-7">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary text-white shadow-sm sm:h-13 sm:w-13">
+                  <Icon className="h-6 w-6" />
                 </div>
-                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-secondary">Step {index + 1}</p>
-                <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-100">{step.title}</h3>
-                <p className="text-sm leading-6 text-slate-600 dark:text-slate-400">{step.description}</p>
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-secondary">Step {index + 1}</p>
+                <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100 sm:text-2xl">{step.title}</h3>
+                <p className="text-sm leading-7 text-slate-600 dark:text-slate-400">{step.description}</p>
               </Card>
             );
           })}
         </div>
       </section>
 
-      <section className="container space-y-6">
+      <section className="container space-y-8">
         <div>
           <span className="section-label">Agents</span>
-          <h2 className="mt-3 text-3xl font-black tracking-tight text-slate-900 dark:text-slate-100">Meet the people behind the listings</h2>
+          <h2 className="mt-4 text-3xl font-black tracking-tight text-slate-900 dark:text-slate-100 sm:text-4xl">Meet the people behind the listings</h2>
         </div>
-        <div className="grid gap-4 lg:grid-cols-3">
+        <div className="grid gap-6 lg:grid-cols-3">
           {agents.map((agent) => (
-            <Card key={agent.name} className="space-y-4 p-6">
-              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-secondary/20 text-lg font-black text-primary">
+            <Card key={agent.name} className="space-y-5 sm:p-7">
+              <div className="flex h-13 w-13 items-center justify-center rounded-2xl bg-secondary/20 text-base font-black text-primary sm:h-15 sm:w-15 sm:text-lg">
                 {agent.name.slice(0, 1)}
               </div>
               <div>
-                <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100">{agent.name}</h3>
-                <p className="text-sm text-slate-500 dark:text-slate-400">{agent.role}</p>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100 sm:text-xl">{agent.name}</h3>
+                <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{agent.role}</p>
               </div>
-              <div className="space-y-2 text-sm text-slate-600 dark:text-slate-400">
+              <div className="space-y-2.5 text-sm text-slate-600 dark:text-slate-400">
                 <p>{agent.experience}</p>
                 <p>{agent.area}</p>
               </div>
@@ -285,48 +285,50 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="container space-y-6">
+      <section className="container space-y-8">
         <div>
           <span className="section-label">Testimonials</span>
-          <h2 className="mt-3 text-3xl font-black tracking-tight text-slate-900 dark:text-slate-100">What clients say</h2>
+          <h2 className="mt-4 text-3xl font-black tracking-tight text-slate-900 dark:text-slate-100 sm:text-4xl">What clients say</h2>
         </div>
-        <div className="grid gap-4 lg:grid-cols-3">
+        <div className="grid gap-6 lg:grid-cols-3">
           {testimonials.map((testimonial) => (
-            <Card key={testimonial.author} className="space-y-4 p-6">
-              <p className="text-lg leading-8 text-slate-700 dark:text-slate-300">“{testimonial.quote}”</p>
+            <Card key={testimonial.author} className="space-y-5 sm:p-7">
+              <p className="text-base leading-8 text-slate-700 dark:text-slate-300 sm:text-lg sm:leading-8">&quot;{testimonial.quote}&quot;</p>
               <p className="text-sm font-semibold text-secondary">{testimonial.author}</p>
             </Card>
           ))}
         </div>
       </section>
 
-      <section className="container space-y-6">
+      <section className="container space-y-8">
         <div>
           <span className="section-label">From the blog</span>
-          <h2 className="mt-3 text-3xl font-black tracking-tight text-slate-900 dark:text-slate-100">Latest market insight</h2>
+          <h2 className="mt-4 text-3xl font-black tracking-tight text-slate-900 dark:text-slate-100 sm:text-4xl">Latest market insight</h2>
         </div>
         {latestBlogs.length > 0 ? (
-          <div className="grid gap-6 lg:grid-cols-3">
+          <div className="grid gap-8 lg:grid-cols-3">
             {latestBlogs.map((blog, index) => (
               <BlogCard key={blog.slug || blog._id} blog={blog} featured={index === 0} />
             ))}
           </div>
         ) : (
-          <Card className="text-center text-slate-500 dark:text-slate-400">No blog posts available yet.</Card>
+          <Card className="text-center text-slate-500 dark:text-slate-400 py-12">No blog posts available yet.</Card>
         )}
       </section>
 
-      <section className="container">
+      <section className="container pt-4">
         <Card className="overflow-hidden p-0">
           <div className="grid gap-0 lg:grid-cols-[1.1fr_0.9fr]">
-            <div className="space-y-4 bg-primary px-8 py-10 text-white lg:px-10">
+            <div className="space-y-6 bg-primary px-8 py-12 text-white sm:px-10 sm:py-14 lg:px-12">
               <span className="section-label border-white/20 bg-white/10 text-white">Newsletter</span>
-              <h2 className="text-3xl font-black tracking-tight">Get updates on new listings and market trends.</h2>
-              <p className="max-w-xl text-sm leading-7 text-white/80">Stay ahead with featured properties, investment tips, and neighborhood updates delivered to your inbox.</p>
+              <div>
+                <h2 className="text-3xl font-black tracking-tight sm:text-4xl leading-tight">Get updates on new listings and market trends.</h2>
+                <p className="mt-4 max-w-xl text-sm leading-7 text-white/80 sm:text-base sm:leading-8">Stay ahead with featured properties, investment tips, and neighborhood updates delivered to your inbox.</p>
+              </div>
             </div>
-            <div className="bg-white px-8 py-10 dark:bg-slate-900 lg:px-10">
-              <form className="space-y-4">
-                <input type="email" placeholder="Enter your email" className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100" />
+            <div className="bg-white px-8 py-12 dark:bg-slate-900 sm:px-10 sm:py-14 lg:px-12 flex items-center">
+              <form className="w-full space-y-4">
+                <input type="email" placeholder="Enter your email" className="w-full rounded-xl border border-slate-200 bg-white px-5 py-3 text-base text-slate-900 placeholder:text-slate-400 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100" />
                 <Button fullWidth>Subscribe Now</Button>
               </form>
             </div>

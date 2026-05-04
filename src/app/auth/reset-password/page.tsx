@@ -86,8 +86,8 @@ function ResetPasswordContent() {
       <Card className="mx-auto max-w-md space-y-6">
         <div className="text-center">
           <span className="section-label mb-3">Reset Access</span>
-          <h1 className="text-3xl font-black tracking-tight text-slate-900 dark:text-slate-100">Reset password</h1>
-          <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">Choose a new password for your account.</p>
+          <h1 className="text-2xl font-black tracking-tight text-slate-900 dark:text-slate-100 sm:text-3xl">Reset password</h1>
+          <p className="mt-2 text-xs text-slate-600 dark:text-slate-400 sm:text-sm">Choose a new password for your account.</p>
         </div>
 
         {success && <Alert type="success" message={success} />}
