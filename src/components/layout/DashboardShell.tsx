@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Bell, ChevronLeft, ChevronRight, LogOut, Menu, X } from "lucide-react";
+import { Bell, ChevronLeft, ChevronRight, LogOut, Menu, X, AlertCircle, CheckCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/useAuth";
 import Button from "@/components/ui/Button";
@@ -27,10 +27,55 @@ export default function DashboardShell({ title, subtitle, menu, children }: Dash
   const { user, logout } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
+  const [notificationsOpen, setNotificationsOpen] = useState(false);
+
+  const notifications = [
+    {
+      id: 1,
+      type: "success",
+      title: "Profile Updated",
+      message: "Your profile picture has been updated successfully.",
+      time: "2 minutes ago",
+      read: false,
+    },
+    {
+      id: 2,
+      type: "info",
+      title: "Welcome to Dashboard",
+      message: "Get started by exploring the admin panel features.",
+      time: "1 hour ago",
+      read: false,
+    },
+    {
+      id: 3,
+      type: "success",
+      title: "System Online",
+      message: "All systems are operational.",
+      time: "5 hours ago",
+      read: true,
+    },
+  ];
 
   useEffect(() => {
     setMobileOpen(false);
   }, [pathname]);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest('[data-notification-panel]')) {
+        setNotificationsOpen(false);
+      }
+    };
+
+    if (notificationsOpen) {
+      document.addEventListener('click', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [notificationsOpen]);
 
   const handleLogout = () => {
     logout();
@@ -147,10 +192,67 @@ export default function DashboardShell({ title, subtitle, menu, children }: Dash
             </div>
 
             <div className="flex items-center gap-4">
-              <button type="button" className="relative rounded-xl border border-slate-200 p-2.5 text-slate-700 transition-colors dark:border-slate-800 dark:text-slate-300" aria-label="Notifications">
-                <Bell className="h-5 w-5" />
-                <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-secondary" />
-              </button>
+              <div className="relative" data-notification-panel>
+                <button 
+                  type="button" 
+                  onClick={() => setNotificationsOpen(!notificationsOpen)}
+                  className="relative rounded-xl border border-slate-200 p-2.5 text-slate-700 transition-colors hover:bg-slate-50 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-900" 
+                  aria-label="Notifications"
+                >
+                  <Bell className="h-5 w-5" />
+                  <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-secondary animate-pulse" />
+                </button>
+
+                {notificationsOpen && (
+                  <div className="absolute right-0 top-12 z-50 w-96 rounded-2xl border border-slate-200 bg-white shadow-2xl dark:border-slate-800 dark:bg-slate-900" data-notification-panel>
+                    <div className="border-b border-slate-200 px-5 py-4 dark:border-slate-800">
+                      <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100">Notifications</h3>
+                    </div>
+                    <div className="max-h-96 divide-y divide-slate-200 overflow-y-auto dark:divide-slate-800">
+                      {notifications.length === 0 ? (
+                        <div className="px-5 py-8 text-center">
+                          <Bell className="mx-auto h-8 w-8 text-slate-400 dark:text-slate-600" />
+                          <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">No notifications</p>
+                        </div>
+                      ) : (
+                        notifications.map((notification) => (
+                          <div
+                            key={notification.id}
+                            className={cn(
+                              "px-5 py-4 transition-colors hover:bg-slate-50 dark:hover:bg-slate-800",
+                              !notification.read && "bg-secondary/5 dark:bg-secondary/10"
+                            )}
+                          >
+                            <div className="flex gap-3">
+                              <div className="mt-1 flex-shrink-0">
+                                {notification.type === "success" ? (
+                                  <CheckCircle className="h-5 w-5 text-green-500" />
+                                ) : (
+                                  <AlertCircle className="h-5 w-5 text-blue-500" />
+                                )}
+                              </div>
+                              <div className="flex-1">
+                                <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">{notification.title}</p>
+                                <p className="mt-1 text-xs text-slate-600 dark:text-slate-400">{notification.message}</p>
+                                <p className="mt-2 text-xs text-slate-500 dark:text-slate-500">{notification.time}</p>
+                              </div>
+                              {!notification.read && (
+                                <div className="h-2 w-2 rounded-full bg-secondary flex-shrink-0 mt-2" />
+                              )}
+                            </div>
+                          </div>
+                        ))
+                      )}
+                    </div>
+                    <div className="border-t border-slate-200 px-5 py-3 dark:border-slate-800">
+                      <button className="text-center w-full text-xs font-semibold text-secondary hover:text-secondary/80 transition-colors">
+                        View All Notifications
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+
               <div className="hidden rounded-2xl border border-slate-200 bg-white px-4 py-3 text-right shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:block">
                 <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">{user?.name}</p>
                 <p className="text-xs text-slate-500 dark:text-slate-400 capitalize">{user?.role}</p>
