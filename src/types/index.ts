@@ -9,6 +9,7 @@ export interface User {
   avatar?: string | { url: string; publicId?: string };
   avatarPublicId?: string;
   isVerified: boolean;
+  isBlocked?: boolean;
   wishlist: string[];
   createdAt: string;
   updatedAt: string;

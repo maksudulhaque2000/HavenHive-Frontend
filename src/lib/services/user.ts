@@ -37,6 +37,21 @@ export const userService = {
     return data;
   },
 
+  blockUser: async (id: string) => {
+    const { data } = await apiClient.post<ApiResponse<User>>(`/users/${id}/block`, {});
+    return data;
+  },
+
+  unblockUser: async (id: string) => {
+    const { data } = await apiClient.post<ApiResponse<User>>(`/users/${id}/unblock`, {});
+    return data;
+  },
+
+  updateUserRole: async (id: string, role: "user" | "agent" | "admin") => {
+    const { data } = await apiClient.patch<ApiResponse<User>>(`/users/${id}/role`, { role });
+    return data;
+  },
+
   toggleWishlist: async (propertyId: string) => {
     const { data } = await apiClient.post<ApiResponse<User>>(
       `/users/wishlist/${propertyId}`,
