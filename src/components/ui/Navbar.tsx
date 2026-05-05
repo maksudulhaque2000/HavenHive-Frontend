@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Menu, X } from "lucide-react";
 import { useAuthStore } from "@/store/auth";
 import Button from "./Button";
@@ -19,6 +20,20 @@ export default function Navbar() {
     logout();
     window.location.href = "/auth/login";
   };
+
+  const getAvatarUrl = () => {
+    if (!user?.avatar) return null;
+    if (typeof user.avatar === "string") {
+      return user.avatar;
+    }
+    if (typeof user.avatar === "object" && user.avatar?.url) {
+      return user.avatar.url;
+    }
+    return null;
+  };
+
+  const avatarUrl = getAvatarUrl();
+  const userInitial = user?.name.slice(0, 1).toUpperCase() || "U";
 
   return (
     <nav className="sticky top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur-sm dark:border-slate-800 dark:bg-slate-950/80">
@@ -56,8 +71,18 @@ export default function Navbar() {
                 <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">{user.name}</p>
                 <p className="text-xs text-slate-500 dark:text-slate-400">{user.role}</p>
               </div>
-              <Link href={user.role === "admin" ? "/dashboard/admin" : "/dashboard/user"} className="flex h-11 w-11 items-center justify-center rounded-full bg-slate-900 text-sm font-semibold text-white dark:bg-slate-100 dark:text-slate-900">
-                {user.name.slice(0, 1).toUpperCase()}
+              <Link href={user.role === "admin" ? "/dashboard/admin" : "/dashboard/user"} className="flex h-11 w-11 items-center justify-center rounded-full bg-slate-900 text-sm font-semibold text-white dark:bg-slate-100 dark:text-slate-900 overflow-hidden flex-shrink-0">
+                {avatarUrl ? (
+                  <Image
+                    src={avatarUrl}
+                    alt={user.name}
+                    width={44}
+                    height={44}
+                    className="h-full w-full object-cover"
+                  />
+                ) : (
+                  userInitial
+                )}
               </Link>
               <Button variant="outline" size="md" onClick={handleLogout}>
                 Logout
@@ -106,9 +131,30 @@ export default function Navbar() {
               </Link>
             )}
             {user ? (
-              <Button variant="danger" fullWidth size="md" onClick={handleLogout}>
-                Logout
-              </Button>
+              <>
+                <div className="flex items-center gap-3 px-4 py-3 border-t border-slate-200 dark:border-slate-700 mt-2">
+                  <div className="h-10 w-10 rounded-full bg-slate-900 dark:bg-slate-100 text-sm font-semibold text-white dark:text-slate-900 overflow-hidden flex items-center justify-center flex-shrink-0">
+                    {avatarUrl ? (
+                      <Image
+                        src={avatarUrl}
+                        alt={user.name}
+                        width={40}
+                        height={40}
+                        className="h-full w-full object-cover"
+                      />
+                    ) : (
+                      userInitial
+                    )}
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">{user.name}</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">{user.role}</p>
+                  </div>
+                </div>
+                <Button variant="danger" fullWidth size="md" onClick={handleLogout} className="mt-2">
+                  Logout
+                </Button>
+              </>
             ) : (
               <div className="grid grid-cols-2 gap-3 pt-2">
                 <Link href="/auth/login">

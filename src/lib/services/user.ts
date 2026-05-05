@@ -17,6 +17,16 @@ export const userService = {
     return data;
   },
 
+  uploadProfilePicture: async (file: File) => {
+    const formData = new FormData();
+    formData.append("avatar", file);
+    const { data } = await apiClient.post<ApiResponse<User>>(
+      "/users/me/avatar",
+      formData
+    );
+    return data;
+  },
+
   update: async (id: string, payload: any) => {
     const { data } = await apiClient.patch<ApiResponse<User>>(`/users/${id}`, payload);
     return data;

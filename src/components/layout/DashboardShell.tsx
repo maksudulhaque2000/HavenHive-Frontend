@@ -7,7 +7,6 @@ import { Bell, ChevronLeft, ChevronRight, LogOut, Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/useAuth";
 import Button from "@/components/ui/Button";
-import ThemeToggle from "@/components/ui/ThemeToggle";
 
 export interface DashboardMenuItem {
   label: string;
@@ -148,7 +147,6 @@ export default function DashboardShell({ title, subtitle, menu, children }: Dash
             </div>
 
             <div className="flex items-center gap-4">
-              <ThemeToggle />
               <button type="button" className="relative rounded-xl border border-slate-200 p-2.5 text-slate-700 transition-colors dark:border-slate-800 dark:text-slate-300" aria-label="Notifications">
                 <Bell className="h-5 w-5" />
                 <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-secondary" />

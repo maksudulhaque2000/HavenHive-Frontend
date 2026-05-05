@@ -6,18 +6,21 @@ const AUTH_TOKEN_KEY = "havenhive_token";
 
 export const apiClient = axios.create({
   baseURL: "/api",
-  headers: {
-    "Content-Type": "application/json",
-  },
 });
 
-// Add token to requests
+// Add token to requests and handle Content-Type
 apiClient.interceptors.request.use((config) => {
   const token = typeof window !== "undefined" ? window.localStorage.getItem(AUTH_TOKEN_KEY) : null;
   if (token) {
     config.headers = config.headers ?? {};
     config.headers.Authorization = `Bearer ${token}`;
   }
+  
+  // Only set Content-Type for non-FormData requests
+  if (!(config.data instanceof FormData)) {
+    config.headers["Content-Type"] = "application/json";
+  }
+  
   return config;
 });
 

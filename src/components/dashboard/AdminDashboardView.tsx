@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Building2, CalendarCheck2, Contact, LayoutGrid, Users } from "lucide-react";
+import { Building2, CalendarCheck2, Contact, LayoutGrid, Users, User as UserIcon } from "lucide-react";
 import { bookingService } from "@/lib/services/booking";
 import { contactService } from "@/lib/services/contact";
 import { propertyService } from "@/lib/services/property";
@@ -33,6 +33,7 @@ import { formatCurrency, formatDate } from "@/lib/utils";
 
 const menu: DashboardMenuItem[] = [
   { label: "Dashboard", href: "/dashboard/admin", icon: <LayoutGrid className="h-4 w-4" /> },
+  { label: "My Profile", href: "/profile", icon: <UserIcon className="h-4 w-4" /> },
   { label: "Users", href: "/admin/users", icon: <Users className="h-4 w-4" /> },
   { label: "Properties", href: "/admin/properties", icon: <Building2 className="h-4 w-4" /> },
   { label: "Bookings", href: "/admin/bookings", icon: <CalendarCheck2 className="h-4 w-4" /> },

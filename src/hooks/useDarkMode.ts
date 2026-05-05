@@ -18,7 +18,18 @@ export function useDarkMode() {
   const applyTheme = (nextTheme: "light" | "dark") => {
     setTheme(nextTheme);
     window.localStorage.setItem(STORAGE_KEY, nextTheme);
-    document.documentElement.classList.toggle("dark", nextTheme === "dark");
+    
+    // Add smooth transition
+    const html = document.documentElement;
+    html.style.transition = "background-color 0.3s ease, color 0.3s ease";
+    
+    // Apply theme
+    html.classList.toggle("dark", nextTheme === "dark");
+    
+    // Remove transition after it completes
+    setTimeout(() => {
+      html.style.transition = "";
+    }, 300);
   };
 
   return {
