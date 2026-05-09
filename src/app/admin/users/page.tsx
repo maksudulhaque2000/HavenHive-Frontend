@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Lock, Unlock, Trash2, Shield, User as UserIcon } from "lucide-react";
+import { Lock, Unlock, Trash2 } from "lucide-react";
 import PrivateRoute from "@/components/layout/PrivateRoute";
 import DashboardShell from "@/components/layout/DashboardShell";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";

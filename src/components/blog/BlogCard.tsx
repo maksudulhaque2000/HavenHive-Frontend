@@ -29,8 +29,10 @@ export default function BlogCard({ blog, featured = false, canEdit = false, onBl
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const blogId = getDisplayId(blog);
   const href = `/blogs/${blog.slug || blogId}`;
+  const userId = user?._id || user?.id;
+  const authorId = blog.author?._id || blog.author?.id;
   
-  const isAuthor = user?._id === blog.author?._id;
+  const isAuthor = Boolean(userId && authorId && userId === authorId);
   const isAdmin = user?.role === "admin";
   const canManage = canEdit && (isAuthor || isAdmin);
 

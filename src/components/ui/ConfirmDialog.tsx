@@ -56,7 +56,7 @@ export default function ConfirmDialog({
           {cancelLabel}
         </Button>
         <Button 
-          variant={danger ? "destructive" : "primary"} 
+          variant={danger ? "danger" : "primary"} 
           onClick={onConfirm}
           disabled={isLoading}
           className="flex items-center gap-2"

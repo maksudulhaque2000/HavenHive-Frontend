@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { AlertCircle, Upload, X } from "lucide-react";
 import { blogService } from "@/lib/services/blog";
 import { Blog } from "@/types";
@@ -251,7 +252,15 @@ export default function BlogForm({ blog, isEditing = false }: BlogFormProps) {
               <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Cover Image</label>
               {coverImagePreview ? (
                 <div className="relative mb-4 overflow-hidden rounded-lg border border-slate-200 dark:border-slate-700">
-                  <img src={coverImagePreview} alt="Cover preview" className="h-64 w-full object-cover" />
+                  <div className="relative h-64 w-full">
+                    <Image
+                      src={coverImagePreview}
+                      alt="Cover preview"
+                      fill
+                      sizes="(max-width: 768px) 100vw, 768px"
+                      className="object-cover"
+                    />
+                  </div>
                   <button
                     type="button"
                     onClick={handleRemoveImage}

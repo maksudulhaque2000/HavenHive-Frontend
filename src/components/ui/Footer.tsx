@@ -152,7 +152,7 @@ export default function Footer() {
             <div className="flex flex-wrap justify-center gap-3">
               {socialLinks.map((social) => {
                 const Icon = social.icon;
-                return social.icon ? (
+                return (
                   <a
                     key={social.name}
                     href={social.href}
@@ -163,16 +163,6 @@ export default function Footer() {
                     aria-label={social.name}
                   >
                     <Icon className="h-5 w-5" />
-                  </a>
-                ) : (
-                  <a
-                    key={social.name}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="rounded-full border border-slate-300 bg-slate-50 px-4 py-2 text-xs font-semibold text-slate-700 transition-all hover:border-primary hover:bg-primary hover:text-white dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-primary dark:hover:text-white"
-                  >
-                    {social.label}
                   </a>
                 );
               })}
