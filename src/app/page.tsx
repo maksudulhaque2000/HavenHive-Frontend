@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { ArrowRight, BadgeCheck, Building2, Compass, Home, KeyRound, Mail, MapPinned, PlayCircle, Search, Sparkles } from "lucide-react";
+import { ArrowRight, BadgeCheck, Building2, Compass, Home, KeyRound, Mail, MapPinned, PlayCircle, Search, Sparkles, Phone, Globe, Star } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { propertyService } from "@/lib/services/property";
 import { blogService } from "@/lib/services/blog";
@@ -41,9 +41,42 @@ const howItWorks = [
 ];
 
 const agents = [
-  { name: "Ariana Rahman", role: "Senior Property Advisor", experience: "8 years", area: "Dhaka & Chattogram" },
-  { name: "Noman Chowdhury", role: "Investment Specialist", experience: "6 years", area: "Residential Portfolios" },
-  { name: "Maya Islam", role: "Luxury Homes Consultant", experience: "7 years", area: "Premium Villas" },
+  {
+    name: "Ariana Rahman",
+    role: "Senior Property Advisor",
+    experience: "8 years",
+    area: "Dhaka & Chattogram",
+    email: "ariana@havenhive.com",
+    phone: "+880 1711-204811",
+    responseTime: "Replies within 2 hours",
+    specialties: ["Family Homes", "City Apartments"],
+    languages: ["Bangla", "English"],
+    rating: "4.9/5",
+  },
+  {
+    name: "Noman Chowdhury",
+    role: "Investment Specialist",
+    experience: "6 years",
+    area: "Residential Portfolios",
+    email: "noman@havenhive.com",
+    phone: "+880 1711-204812",
+    responseTime: "Replies within 3 hours",
+    specialties: ["ROI Strategy", "Portfolio Growth"],
+    languages: ["Bangla", "English"],
+    rating: "4.8/5",
+  },
+  {
+    name: "Maya Islam",
+    role: "Luxury Homes Consultant",
+    experience: "7 years",
+    area: "Premium Villas",
+    email: "maya@havenhive.com",
+    phone: "+880 1711-204813",
+    responseTime: "Replies within 1 hour",
+    specialties: ["Luxury Villas", "Private Estates"],
+    languages: ["Bangla", "English", "Hindi"],
+    rating: "5.0/5",
+  },
 ];
 
 const testimonials = [
@@ -266,22 +299,91 @@ export default function HomePage() {
           <span className="section-label">Agents</span>
           <h2 className="mt-4 text-3xl font-black tracking-tight text-slate-900 dark:text-slate-100 sm:text-4xl">Meet the people behind the listings</h2>
         </div>
-        <div className="grid gap-6 lg:grid-cols-3">
-          {agents.map((agent) => (
-            <Card key={agent.name} className="space-y-5 sm:p-7">
-              <div className="flex h-13 w-13 items-center justify-center rounded-2xl bg-secondary/20 text-base font-black text-primary sm:h-15 sm:w-15 sm:text-lg">
-                {agent.name.slice(0, 1)}
-              </div>
-              <div>
-                <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100 sm:text-xl">{agent.name}</h3>
-                <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{agent.role}</p>
-              </div>
-              <div className="space-y-2.5 text-sm text-slate-600 dark:text-slate-400">
-                <p>{agent.experience}</p>
-                <p>{agent.area}</p>
-              </div>
-            </Card>
-          ))}
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          {agents.map((agent, index) => {
+            const initials = agent.name
+              .split(" ")
+              .map((part) => part[0])
+              .slice(0, 2)
+              .join("");
+
+            return (
+              <Card key={agent.name} className="group overflow-hidden border border-slate-200 bg-white/95 p-0 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg dark:border-slate-800 dark:bg-slate-900/95">
+                <div className="h-2 bg-gradient-to-r from-primary via-secondary to-amber-400" />
+                <div className="space-y-5 p-5 sm:p-6">
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex items-center gap-3">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-900 text-sm font-black text-white shadow-sm dark:bg-slate-100 dark:text-slate-900">
+                        {initials}
+                      </div>
+                      <div>
+                        <div className="mb-1 flex items-center gap-2">
+                          <Badge variant="warning" className="rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.16em]">
+                            Agent {index + 1}
+                          </Badge>
+                        </div>
+                        <h3 className="text-base font-bold text-slate-900 dark:text-slate-100 sm:text-lg">{agent.name}</h3>
+                        <p className="text-sm text-slate-500 dark:text-slate-400">{agent.role}</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-1 text-xs font-bold text-amber-700 dark:bg-amber-900/20 dark:text-amber-300">
+                      <Star className="h-3.5 w-3.5 fill-current" />
+                      {agent.rating}
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-3 text-sm">
+                    <div className="rounded-2xl bg-slate-50 px-3 py-3 dark:bg-slate-950/50">
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Experience</p>
+                      <p className="mt-1 font-semibold text-slate-900 dark:text-slate-100">{agent.experience}</p>
+                    </div>
+                    <div className="rounded-2xl bg-slate-50 px-3 py-3 dark:bg-slate-950/50">
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Focus</p>
+                      <p className="mt-1 font-semibold text-slate-900 dark:text-slate-100">{agent.area}</p>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2.5 text-sm text-slate-600 dark:text-slate-400">
+                    <div className="flex items-center gap-3 rounded-2xl bg-slate-50 px-3 py-2.5 dark:bg-slate-950/50">
+                      <Mail className="h-4 w-4 shrink-0 text-secondary" />
+                      <span className="truncate">{agent.email}</span>
+                    </div>
+                    <div className="flex items-center gap-3 rounded-2xl bg-slate-50 px-3 py-2.5 dark:bg-slate-950/50">
+                      <Phone className="h-4 w-4 shrink-0 text-secondary" />
+                      <span>{agent.phone}</span>
+                    </div>
+                    <div className="flex items-center gap-3 rounded-2xl bg-slate-50 px-3 py-2.5 dark:bg-slate-950/50">
+                      <Sparkles className="h-4 w-4 shrink-0 text-secondary" />
+                      <span>{agent.responseTime}</span>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-wrap gap-2">
+                    {agent.specialties.slice(0, 2).map((specialty) => (
+                      <span key={specialty} className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300">
+                        {specialty}
+                      </span>
+                    ))}
+                    {agent.languages.slice(0, 2).map((language) => (
+                      <span key={language} className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+                        <Globe className="h-3.5 w-3.5" />
+                        {language}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="flex items-center justify-between border-t border-slate-200 pt-4 dark:border-slate-800">
+                    <p className="text-xs font-medium uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400">{agent.area}</p>
+                    <div className="flex items-center gap-1.5 text-xs font-semibold text-primary">
+                      <BadgeCheck className="h-4 w-4" />
+                      Verified
+                    </div>
+                  </div>
+                </div>
+              </Card>
+            );
+          })}
         </div>
       </section>
 
