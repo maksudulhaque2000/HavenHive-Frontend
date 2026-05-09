@@ -10,10 +10,11 @@ import "@/styles/globals.css";
 import "leaflet/dist/leaflet.css";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const { hydrate } = useAuthStore();
+  const hydrate = useAuthStore((state) => state.hydrate);
   const { theme } = useDarkMode();
 
   useEffect(() => {
+    // Hydrate auth from localStorage on app load
     hydrate();
   }, [hydrate]);
 

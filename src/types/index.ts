@@ -129,7 +129,7 @@ export interface Blog {
   category: string;
   author: User;
   published: boolean;
-  coverImage?: string;
+  coverImage?: string | { url: string; publicId?: string };
   createdAt: string;
   updatedAt: string;
 }
