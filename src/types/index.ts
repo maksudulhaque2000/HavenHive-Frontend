@@ -115,6 +115,7 @@ export interface Review {
   user: User;
   rating: number;
   comment: string;
+  status?: "pending" | "approved";
   createdAt: string;
   updatedAt: string;
 }

@@ -65,7 +65,7 @@ export default function PropertyDetailPage() {
         rating: newReview.rating,
         comment: newReview.comment,
       });
-      setSuccess("Review submitted successfully!");
+      setSuccess("Review submitted successfully and is waiting for admin approval.");
       setNewReview({ rating: 5, comment: "" });
 
       // Reload reviews
@@ -182,7 +182,14 @@ export default function PropertyDetailPage() {
           <Card className="mb-8">
             <h3 className="mb-6 text-xl font-bold sm:text-2xl">Reviews ({reviews.length})</h3>
 
-            {user && (
+            <div className="mb-8 rounded-lg border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900">
+              <h4 className="text-sm font-bold sm:text-base">Share your experience</h4>
+              <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
+                To write a review, stay on this property page and submit from the form below. Reviews appear on the homepage after admin approval.
+              </p>
+            </div>
+
+            {user ? (
               <form onSubmit={handleSubmitReview} className="mb-8 p-4 bg-gray-50 rounded-lg">
                 <h4 className="mb-4 font-bold text-sm sm:text-base">Leave a Review</h4>
                 <div className="mb-4">
@@ -202,6 +209,13 @@ export default function PropertyDetailPage() {
                 />
                 <Button type="submit">Submit Review</Button>
               </form>
+            ) : (
+              <div className="mb-8 rounded-lg border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-950">
+                <p className="mb-3 text-sm text-slate-600 dark:text-slate-400">Please login first to submit your review.</p>
+                <Link href="/auth/login">
+                  <Button size="sm">Login to Write Review</Button>
+                </Link>
+              </div>
             )}
 
             <div className="space-y-4">

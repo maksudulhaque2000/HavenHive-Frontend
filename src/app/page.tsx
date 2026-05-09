@@ -14,6 +14,7 @@ import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import PropertyCard from "@/components/property/PropertyCard";
 import BlogCard from "@/components/blog/BlogCard";
 import { formatNumber } from "@/lib/utils";
+import TestimonialsSlider from "@/components/home/TestimonialsSlider";
 
 const categories = [
   { label: "Apartments", href: "/properties?type=apartment", icon: Building2 },
@@ -76,21 +77,6 @@ const agents = [
     specialties: ["Luxury Villas", "Private Estates"],
     languages: ["Bangla", "English", "Hindi"],
     rating: "5.0/5",
-  },
-];
-
-const testimonials = [
-  {
-    quote: "HavenHive helped us shortlist the right home faster than any other platform we tried.",
-    author: "Farzana & Imran",
-  },
-  {
-    quote: "The booking flow and property details made it easy to compare options without friction.",
-    author: "Mehedi Hasan",
-  },
-  {
-    quote: "Their listings feel curated and the dashboard makes follow-up simple.",
-    author: "Rita Das",
   },
 ];
 
@@ -392,14 +378,7 @@ export default function HomePage() {
           <span className="section-label">Testimonials</span>
           <h2 className="mt-4 text-3xl font-black tracking-tight text-slate-900 dark:text-slate-100 sm:text-4xl">What clients say</h2>
         </div>
-        <div className="grid gap-6 lg:grid-cols-3">
-          {testimonials.map((testimonial) => (
-            <Card key={testimonial.author} className="space-y-5 sm:p-7">
-              <p className="text-base leading-8 text-slate-700 dark:text-slate-300 sm:text-lg sm:leading-8">&quot;{testimonial.quote}&quot;</p>
-              <p className="text-sm font-semibold text-secondary">{testimonial.author}</p>
-            </Card>
-          ))}
-        </div>
+        <TestimonialsSlider />
       </section>
 
       <section className="container space-y-8">
