@@ -1,7 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { Upload, X } from "lucide-react";
 import { propertyService } from "@/lib/services/property";
 import { useAuthStore } from "@/store/auth";
 import Card from "@/components/ui/Card";
@@ -9,11 +11,17 @@ import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import Alert from "@/components/ui/Alert";
 
+type ImageItem = {
+  file: File;
+  preview: string;
+};
+
 export default function CreatePropertyPage() {
   const { user } = useAuthStore();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const [images, setImages] = useState<ImageItem[]>([]);
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -30,6 +38,104 @@ export default function CreatePropertyPage() {
     country: "",
     amenities: "",
   });
+
+  useEffect(() => {
+    return () => {
+      images.forEach((item) => URL.revokeObjectURL(item.preview));
+    };
+  }, [images]);
+
+  const optimizeImage = async (file: File): Promise<File> => {
+    return new Promise((resolve) => {
+      const objectUrl = URL.createObjectURL(file);
+      const image = new window.Image();
+
+      image.onload = () => {
+        const maxWidth = 1920;
+        const maxHeight = 1080;
+        const ratio = Math.min(maxWidth / image.width, maxHeight / image.height, 1);
+        const width = Math.round(image.width * ratio);
+        const height = Math.round(image.height * ratio);
+
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+
+        const ctx = canvas.getContext("2d");
+        if (!ctx) {
+          URL.revokeObjectURL(objectUrl);
+          resolve(file);
+          return;
+        }
+
+        ctx.drawImage(image, 0, 0, width, height);
+        const outputType = file.type === "image/png" ? "image/png" : "image/jpeg";
+        const quality = outputType === "image/png" ? undefined : 0.82;
+
+        canvas.toBlob(
+          (blob) => {
+            URL.revokeObjectURL(objectUrl);
+            if (!blob) {
+              resolve(file);
+              return;
+            }
+
+            const fileName = file.name.replace(/\.(png|jpg|jpeg|webp)$/i, outputType === "image/png" ? ".png" : ".jpg");
+            resolve(new File([blob], fileName, { type: outputType, lastModified: Date.now() }));
+          },
+          outputType,
+          quality
+        );
+      };
+
+      image.onerror = () => {
+        URL.revokeObjectURL(objectUrl);
+        resolve(file);
+      };
+
+      image.src = objectUrl;
+    });
+  };
+
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFiles = Array.from(e.target.files || []);
+    if (!selectedFiles.length) return;
+
+    const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+    const validFiles = selectedFiles.filter((file) => allowedTypes.includes(file.type));
+    if (validFiles.length !== selectedFiles.length) {
+      setError("Only JPG, PNG and WEBP images are allowed");
+      return;
+    }
+
+    if (validFiles.some((file) => file.size > 10 * 1024 * 1024)) {
+      setError("Each image must be smaller than 10MB");
+      return;
+    }
+
+    const remainingSlots = 10 - images.length;
+    if (remainingSlots <= 0) {
+      setError("You can upload up to 10 images only");
+      return;
+    }
+
+    const filesToProcess = validFiles.slice(0, remainingSlots);
+    const optimizedFiles = await Promise.all(filesToProcess.map((file) => optimizeImage(file)));
+    const newItems = optimizedFiles.map((file) => ({ file, preview: URL.createObjectURL(file) }));
+
+    setImages((prev) => [...prev, ...newItems]);
+    setError("");
+    e.target.value = "";
+  };
+
+  const removeImage = (index: number) => {
+    setImages((prev) => {
+      const next = [...prev];
+      const [removed] = next.splice(index, 1);
+      if (removed?.preview) URL.revokeObjectURL(removed.preview);
+      return next;
+    });
+  };
 
   if (!user || (user.role !== "agent" && user.role !== "admin")) {
     return <div className="container py-12 text-center">Access Denied</div>;
@@ -64,7 +170,11 @@ export default function CreatePropertyPage() {
         state: formData.state,
         country: formData.country,
       }));
-      payload.append("amenities", JSON.stringify(formData.amenities.split(",")));
+      payload.append("amenities", JSON.stringify(formData.amenities.split(",").map((item) => item.trim()).filter(Boolean)));
+
+      images.forEach((item) => {
+        payload.append("images", item.file);
+      });
 
       await propertyService.create(payload);
       router.push("/agent/properties");
@@ -216,6 +326,48 @@ export default function CreatePropertyPage() {
               onChange={handleChange}
               placeholder="Pool, Gym, Parking, Security"
             />
+
+            <div className="space-y-3">
+              <label className="text-sm font-semibold text-slate-900 dark:text-slate-100">Property Images</label>
+              <label className="flex cursor-pointer items-center justify-center gap-2 rounded-xl border-2 border-dashed border-slate-300 bg-slate-50 px-4 py-6 text-sm font-medium text-slate-700 transition hover:border-primary hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800">
+                <Upload className="h-4 w-4" />
+                Upload one or more images (max 10)
+                <input
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp"
+                  multiple
+                  onChange={handleImageChange}
+                  className="hidden"
+                />
+              </label>
+              <p className="text-xs text-slate-500 dark:text-slate-400">Images are optimized automatically before upload and stored in Cloudinary as optimized assets.</p>
+
+              {images.length > 0 && (
+                <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+                  {images.map((item, index) => (
+                    <div key={`${item.file.name}-${index}`} className="relative overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700">
+                      <div className="relative h-28 w-full">
+                        <Image
+                          src={item.preview}
+                          alt={`Property upload ${index + 1}`}
+                          fill
+                          sizes="(max-width: 768px) 50vw, 20vw"
+                          className="object-cover"
+                        />
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => removeImage(index)}
+                        className="absolute right-2 top-2 rounded-full bg-black/65 p-1 text-white hover:bg-black/80"
+                        aria-label={`Remove image ${index + 1}`}
+                      >
+                        <X className="h-3.5 w-3.5" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
 
             <div className="flex gap-4">
               <Button type="submit" isLoading={isLoading}>

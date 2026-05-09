@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import Image from "next/image";
 import { propertyService } from "@/lib/services/property";
 import { reviewService } from "@/lib/services/review";
 import { bookingService } from "@/lib/services/booking";
@@ -17,6 +16,7 @@ import Alert from "@/components/ui/Alert";
 import { formatCurrency, formatDate } from "@/lib/utils";
 import Link from "next/link";
 import PropertyMap from "@/components/property/PropertyMap";
+import PropertyImageGallery from "@/components/property/PropertyImageGallery";
 
 export default function PropertyDetailPage() {
   const params = useParams();
@@ -113,28 +113,9 @@ export default function PropertyDetailPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2">
-          {/* Images */}
-          {property.images.length > 0 && (
-            <div className="mb-8">
-              <div className="relative mb-4 h-96 w-full overflow-hidden rounded-lg">
-                <Image src={property.images[0].url} alt={property.title} fill sizes="(max-width: 768px) 100vw, 768px" className="object-cover" />
-              </div>
-              {property.images.length > 1 && (
-                <div className="grid grid-cols-4 gap-4">
-                  {property.images.slice(1, 5).map((img, idx) => (
-                    <div key={idx} className="relative h-20 w-full overflow-hidden rounded-lg">
-                      <Image
-                        src={img.url}
-                        alt={`${property.title} ${idx + 2}`}
-                        fill
-                        sizes="25vw"
-                        className="object-cover"
-                      />
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
+          {/* Images Gallery */}
+          {property.images && property.images.length > 0 && (
+            <PropertyImageGallery images={property.images} title={property.title} />
           )}
 
           {/* Details */}
